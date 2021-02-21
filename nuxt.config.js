@@ -1,3 +1,4 @@
+import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -17,7 +18,12 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    {
+      src: '@/plugins/mock',
+      ssr: false,
+    },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -28,6 +34,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/vuetify',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -35,7 +42,18 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
   ],
-
+  vuetify: {
+    theme: {
+      dark: false,
+      primary: colors.blue.darken2,
+      accent: colors.grey.darken3,
+      secondary: colors.amber.darken3,
+      info: colors.teal.lighten1,
+      warning: colors.amber.base,
+      error: colors.deepOrange.accent4,
+      success: colors.green.accent3,
+    },
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 

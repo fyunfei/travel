@@ -1,5 +1,5 @@
 <template>
-  <div class="w-8/12 mx-auto mt-0 bg-white bg-opacity-50 h-full">
+  <div class="list-con w-8/12 mx-auto mt-0 bg-white bg-opacity-50 h-full">
     <ListItem />
   </div>
 </template>
@@ -8,4 +8,8 @@
 export default {}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.list-con {
+  min-width: 1300px;
+}
+</style>

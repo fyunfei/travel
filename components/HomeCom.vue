@@ -1,11 +1,11 @@
 <template>
   <div class="w-4/12 mb-10 float-left cursor-pointer select-none">
     <div
-      class="icon rounded-full my-0 mx-auto"
+      class="icon my-0 mx-auto"
       :class="`icon-${img}`"
       @click="routeTo"
     ></div>
-    <p class="title text-center text-gray-100">{{ text }}</p>
+    <p class="title text-center">{{ text }}</p>
   </div>
 </template>
 
@@ -19,26 +19,32 @@ export default {
   methods: {
     routeTo() {
       this.$router.push(this.path)
-      console.log(this.$router)
     },
   },
 }
 </script>
 
-<style>
-.icon {
+<style lang="scss" scoped>
+$a: '.icon';
+#{$a} {
   width: 100px;
   height: 100px;
   background-size: contain;
+  background-position: center center;
 }
-.icon-list {
-  background-image: url('@/assets/svg/list.svg');
+#{$a}-travel {
+  background-image: url('@/assets/pic/mango.png');
 }
-.icon-plan {
-  background-position: -5px 6px;
-  background-image: url('@/assets/svg/plan.svg');
+#{$a}-list {
+  background-image: url('@/assets/pic/blueberry.png');
 }
-.icon-map {
-  background-image: url('@/assets/svg/map.svg');
+#{$a}-plan {
+  background-image: url('@/assets/pic/cherry.png');
+}
+#{$a}-map {
+  background-image: url('@/assets/pic/hamimelon.png');
+}
+.title {
+  color: #222428;
 }
 </style>

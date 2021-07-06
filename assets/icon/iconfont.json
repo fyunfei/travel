@@ -1,0 +1,65 @@
+{
+  "id": "2427464",
+  "name": "travel",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2154212",
+      "name": "直播观看数_32",
+      "font_class": "view",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "20384624",
+      "name": "cherry",
+      "font_class": "cherry",
+      "unicode": "ecc0",
+      "unicode_decimal": 60608
+    },
+    {
+      "icon_id": "20384651",
+      "name": "pineapple",
+      "font_class": "pineapple",
+      "unicode": "ecc1",
+      "unicode_decimal": 60609
+    },
+    {
+      "icon_id": "20384652",
+      "name": "blueberry",
+      "font_class": "blueberry",
+      "unicode": "ecc2",
+      "unicode_decimal": 60610
+    },
+    {
+      "icon_id": "20384653",
+      "name": "strawberry",
+      "font_class": "strawberry",
+      "unicode": "ecc3",
+      "unicode_decimal": 60611
+    },
+    {
+      "icon_id": "20384654",
+      "name": "mango",
+      "font_class": "mango",
+      "unicode": "ecc4",
+      "unicode_decimal": 60612
+    },
+    {
+      "icon_id": "20384655",
+      "name": "hami melon",
+      "font_class": "hamimelon",
+      "unicode": "ecc5",
+      "unicode_decimal": 60613
+    },
+    {
+      "icon_id": "20384656",
+      "name": "peach",
+      "font_class": "peach",
+      "unicode": "ecc6",
+      "unicode_decimal": 60614
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 <template>
-  <v-app class="container-bg">
+  <v-app>
     <Nuxt />
   </v-app>
 </template>
@@ -15,6 +15,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 *,
@@ -51,11 +52,5 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
-}
-.container-bg {
-  background-image: url('@/assets/pic/travel.jpg') !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-position: center center !important;
 }
 </style>

@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <div class="container z-10">
-      <div v-if="homePageFlag" class="w-10/12 clearfix">
-        <HomeCom
-          v-for="app in appList"
-          :key="app.text"
-          :img="app.img"
-          :path="app.path"
-          :text="app.text"
-        />
-      </div>
-      <nuxt-child v-else></nuxt-child>
+  <div class="container z-10">
+    <div v-if="homePageFlag" class="w-10/12 clearfix">
+      <HomeCom
+        v-for="app in appList"
+        :key="app.text"
+        :img="app.img"
+        :path="app.path"
+        :text="app.text"
+      />
     </div>
+    <nuxt-child v-else></nuxt-child>
   </div>
 </template>
 
@@ -21,9 +19,14 @@ export default {
     return {
       appList: [
         {
+          text: '游记',
+          img: 'travel',
+          path: '/list',
+        },
+        {
           text: '我的计划',
           img: 'list',
-          path: '/list',
+          path: '/planList',
         },
         {
           text: '制定计划',

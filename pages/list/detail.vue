@@ -65,9 +65,7 @@
 
 <script>
 export default {
-  asyncData(context) {
-    console.log(context)
-  },
+  asyncData(context) {},
   mounted() {
     const topicEl = this.$refs.topic
     topicEl.style.height = document.documentElement.offsetWidth * 0.33 + 'px'

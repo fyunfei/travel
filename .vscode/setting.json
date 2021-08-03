@@ -1,0 +1,55 @@
+{
+  "window.zoomLevel": 1,
+  "vetur.format.defaultFormatter.html": "prettyhtml",
+  "vetur.format.defaultFormatterOptions": {
+    "prettyhtml": {
+      "printWidth": 80, // No line exceeds 100 characters
+      "singleQuote": false // Prefer double quotes over single quotes
+    }
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.tabSize": 2, // tab大小为2空格
+  "editor.formatOnSave": false, // 手动保存后自动格式化
+  "files.autoSave": "off", // 取消文件自动保存
+  "vetur.validation.template": false,
+  "git.enableSmartCommit": true, // 关闭vetur对template区域的检测
+  // vue 保存自动eslint 格式化
+  "eslint.autoFixOnSave": true,
+  // 让 prettier 使用 eslint 的代码格式进行校验
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "html",
+    {
+      "language": "html",
+      "autoFix": true
+    },
+    {
+      "language": "vue",
+      "autoFix": true
+    }
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

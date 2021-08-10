@@ -4,7 +4,34 @@
 This is a website which can use it to make a travel plan.
 i think it can be used in different platform shortly!
 
-## 
+## todoList
+### 页面部分
+- [x] 首页
+- [x] 列表页
+- [x] 详情页
+- [x] Make Plan
+  - [ ] 写文章
+  - [ ] 定位 
+...
+
+### 功能部分
+- [ ] 文章段落解析
+- [ ] 地图打卡
+  - [ ] 旅行路线图
+  - [ ] 打卡地图
+...
+
+### 接口部分
+- [ ] 列表接口
+- [ ] 用户接口
+  - [ ] 用户注册
+  - [ ] 用户登录
+  - [ ] 用户个人信息
+- [ ] 高德地图接入 
+...
+
+### 优化
+- [ ] 前端页面优化
 
 ## Build Setup
 

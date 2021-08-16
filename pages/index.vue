@@ -38,6 +38,11 @@ export default {
           img: 'map',
           path: '/map',
         },
+        {
+          text: '我的信息',
+          img: 'male',
+          path: '/user',
+        },
       ],
     }
   },

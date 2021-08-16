@@ -12,6 +12,9 @@ i think it can be used in different platform shortly!
 - [x] Make Plan
   - [ ] 写文章
   - [ ] 定位 
+- [ ] 用户页面
+  - [ ] 个人信息显示
+  - [ ] 设置页面 
 ...
 
 ### 功能部分

@@ -1,5 +1,17 @@
 <template>
   <v-app>
+    <v-app-bar color="#6A76AB" dark max-height="64">
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <v-btn small fab class="custom float-right">
+        <v-img
+          width="50"
+          height="50"
+          contain
+          src="http://image.followmyheart.cn/male.svg"
+        ></v-img>
+      </v-btn>
+    </v-app-bar>
     <Nuxt />
   </v-app>
 </template>
@@ -52,5 +64,8 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+.custom.v-btn {
+  overflow: hidden;
 }
 </style>

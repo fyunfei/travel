@@ -1,9 +1,13 @@
 <template>
-  <div class="w-4/12 mb-10 float-left cursor-pointer select-none">
+  <div
+    :class="{ shake: shaked }"
+    class="w-4/12 mb-10 float-left cursor-pointer select-none"
+  >
     <div
       class="icon my-0 mx-auto"
       :class="`icon-${img}`"
       @click="routeTo"
+      @mouseover="shaked = true"
     ></div>
     <p class="title text-center">{{ text }}</p>
   </div>
@@ -24,6 +28,11 @@ export default {
       type: String,
       default: '',
     },
+  },
+  data() {
+    return {
+      shaked: false,
+    }
   },
   methods: {
     routeTo() {
@@ -49,5 +58,39 @@ $types: 'travel', 'list', 'plan', 'map', 'male', 'female';
 }
 .title {
   color: #222428;
+}
+.shake {
+  animation: shake 2s ease 1;
+}
+@keyframes shake {
+  0% {
+    transform: rotate(0) scale(0.8);
+  }
+  100% {
+    transform: rotate(0) scale(1);
+  }
+  10% {
+    transform: rotate(2deg) scale(1);
+  }
+  15%,
+  25%,
+  35% {
+    transform: rotate(-4deg);
+  }
+  20%,
+  30%,
+  40% {
+    transform: rotate(4deg);
+  }
+  45% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+  55%,
+  90% {
+    transform: rotate(0deg);
+  }
 }
 </style>

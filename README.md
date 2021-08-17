@@ -13,7 +13,7 @@ i think it can be used in different platform shortly!
   - [ ] 写文章
   - [ ] 定位 
 - [ ] 用户页面
-  - [ ] 个人信息显示
+  - [x] 个人信息显示
   - [ ] 设置页面 
 ...
 
@@ -26,10 +26,10 @@ i think it can be used in different platform shortly!
 
 ### 接口部分
 - [ ] 列表接口
-- [ ] 用户接口
-  - [ ] 用户注册
-  - [ ] 用户登录
-  - [ ] 用户个人信息
+- [x] 用户接口
+  - [x] 用户注册
+  - [x] 用户登录
+  - [x] 用户个人信息
 - [ ] 高德地图接入 
 ...
 

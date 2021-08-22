@@ -62,6 +62,7 @@ export default {
       success: colors.green.accent3,
     },
   },
+  pageTransition: 'page',
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 

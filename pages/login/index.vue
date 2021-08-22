@@ -22,7 +22,12 @@
           type="password"
         ></v-text-field>
         <div class="login-wrap_reg">
-          <a href="javascript:void(0)" class="register">注册账号</a>
+          <a
+            href="javascript:void(0)"
+            class="register"
+            @click="$router.push('/register')"
+            >注册账号</a
+          >
         </div>
         <v-btn color="#6c36ff" class="login-wrap_btn" style="width: 100%" dark
           >登录</v-btn

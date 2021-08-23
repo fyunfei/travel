@@ -69,11 +69,11 @@
 </template>
 
 <script>
+import UserApi from '@/api/user'
 import placeholder from '@/config/default'
 import { checkUser, checkPass } from '@/utils/check'
 import { validationMixin } from 'vuelidate'
 import { required, sameAs } from 'vuelidate/lib/validators'
-
 const { userTip, phoneTip, passTip, repeatTip, nickTip } = placeholder
 export default {
   mixins: [validationMixin],
@@ -137,7 +137,6 @@ export default {
   computed: {
     userError() {
       const errors = []
-      console.log(this.$v.registParam)
       if (!this.$v.registParam.username.$dirty) return errors
       !this.$v.registParam.username.required && errors.push(userTip)
       !this.$v.registParam.username.checkUser &&
@@ -171,15 +170,32 @@ export default {
       !this.$v.registParam.passwordRepeat.required && errors.push(repeatTip)
       !this.$v.registParam.passwordRepeat.checkPass &&
         errors.push('密码必须包括大小写字母和数字，可以使用特殊字符长度8~16位')
+      !this.$v.registParam.passwordRepeat.sameAsPassword &&
+        errors.push('两次输入密码不一致，请重试')
       return errors
     },
+  },
+  mounted() {
+    this.$message()
+    // console.log(this.$message)
   },
   methods: {
     register() {
       const validate = this.$v.registParam
       validate.$touch()
       if (!validate.$invalid) {
-        console.log('注册')
+        const { username, nickname, password, phone } = this.registParam
+        this.$axios
+          .$post(UserApi.register, {
+            username,
+            nickname,
+            password,
+            phone,
+          })
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(() => {})
       }
     },
   },

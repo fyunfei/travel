@@ -23,13 +23,16 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {
+    /* {
       src: '@/plugins/mock',
       ssr: false,
-    },
+    }, */
     {
       src: '@/plugins/wangeditor',
       ssr: false,
+    },
+    {
+      src: '@/plugins/axios',
     },
   ],
 
@@ -64,7 +67,14 @@ export default {
   },
   pageTransition: 'page',
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    proxy: true,
+  },
+  proxy: {
+    '/api/': {
+      target: 'http://192.168.0.101:3000',
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},

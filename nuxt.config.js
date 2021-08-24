@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   server: {
     host: '0.0.0.0',
-    port: 3000,
+    port: 8080,
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -19,7 +19,11 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/scss/core.scss', '@/assets/icon/iconfont.css'],
+  css: [
+    '@/assets/scss/core.scss',
+    '@/assets/icon/iconfont.css',
+    'material-design-icons-iconfont/dist/material-design-icons.css',
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -30,6 +34,13 @@ export default {
     {
       src: '@/plugins/wangeditor',
       ssr: false,
+    },
+    {
+      src: '@/plugins/message/index',
+      ssr: false,
+    },
+    {
+      src: '@/plugins/vuetify',
     },
     {
       src: '@/plugins/axios',

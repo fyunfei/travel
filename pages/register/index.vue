@@ -1,6 +1,9 @@
 <template>
   <div class="login">
     <div class="login-wrap">
+      <v-alert dense type="success">
+        I'm a dense alert with a <strong>type</strong> of info
+      </v-alert>
       <div class="login-wrap_header">
         <v-btn icon @click="$router.go(-1)">
           <v-icon>mdi-arrow-left</v-icon>

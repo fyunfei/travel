@@ -1,9 +1,6 @@
 <template>
   <div class="login">
     <div class="login-wrap">
-      <v-alert dense type="success">
-        I'm a dense alert with a <strong>type</strong> of info
-      </v-alert>
       <div class="login-wrap_header">
         <v-btn icon @click="$router.go(-1)">
           <v-icon>mdi-arrow-left</v-icon>
@@ -63,6 +60,7 @@
           class="login-wrap_btn"
           style="width: 100%"
           dark
+          :loading="loading"
           @click="register"
           >注册</v-btn
         >
@@ -84,6 +82,7 @@ export default {
   data() {
     return {
       valid: true,
+      loading: false,
       registParam: {
         username: '',
         nickname: '',
@@ -178,16 +177,13 @@ export default {
       return errors
     },
   },
-  mounted() {
-    this.$message()
-    // console.log(this.$message)
-  },
   methods: {
     register() {
       const validate = this.$v.registParam
       validate.$touch()
       if (!validate.$invalid) {
         const { username, nickname, password, phone } = this.registParam
+        this.loading = true
         this.$axios
           .$post(UserApi.register, {
             username,
@@ -196,9 +192,28 @@ export default {
             phone,
           })
           .then((res) => {
-            console.log(res)
+            this.loading = false
+            const { code, result, message } = res
+            if (code === 200 && result) {
+              this.$message({
+                type: 'success',
+                message: '注册成功',
+              })
+              this.$router.push('/login')
+            } else {
+              this.$message({
+                type: 'error',
+                message,
+              })
+            }
           })
-          .catch(() => {})
+          .catch(() => {
+            this.loading = false
+            this.$message({
+              type: 'error',
+              message: '注册失败',
+            })
+          })
       }
     },
   },

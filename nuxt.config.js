@@ -46,7 +46,7 @@ export default {
       src: '@/plugins/axios',
     },
   ],
-
+  loading: false,
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 

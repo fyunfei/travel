@@ -20,6 +20,8 @@ i think it can be used in different platform shortly!
 ...
 
 ### 前端功能部分
+- [x] 登录
+- [x] 注册
 - [ ] 文章段落解析
 - [ ] 地图打卡
   - [ ] 旅行路线图

@@ -6,7 +6,7 @@
       </div>
       <v-form
         ref="form"
-        v-model="valid"
+        v-model="param.valid"
         class="login-wrap_form"
         lazy-validation
       >
@@ -14,12 +14,18 @@
           v-model="param.username"
           color="#6c36ff"
           label="用户名"
+          :error-messages="userError"
+          @input="$v.param.username.$touch()"
+          @blur="$v.param.username.$touch()"
         ></v-text-field>
         <v-text-field
           v-model="param.password"
           color="#6c36ff"
           label="密码"
           type="password"
+          :error-messages="passwordError"
+          @input="$v.param.password.$touch()"
+          @blur="$v.param.password.$touch()"
         ></v-text-field>
         <div class="login-wrap_reg">
           <a
@@ -29,7 +35,13 @@
             >注册账号</a
           >
         </div>
-        <v-btn color="#6c36ff" class="login-wrap_btn" style="width: 100%" dark
+        <v-btn
+          color="#6c36ff"
+          class="login-wrap_btn"
+          style="width: 100%"
+          dark
+          :loading="loading"
+          @click="login"
           >登录</v-btn
         >
       </v-form>
@@ -38,16 +50,90 @@
 </template>
 
 <script>
+import UserApi from '@/api/user'
+import placeholder from '@/config/default'
+import { checkUser, checkPass } from '@/utils/check'
+import { validationMixin } from 'vuelidate'
+import { required } from 'vuelidate/lib/validators'
+const { userTip, passTip } = placeholder
 export default {
+  mixins: [validationMixin],
   layout: 'login',
   data() {
     return {
-      valid: true,
+      loading: false,
       param: {
         username: '',
         password: '',
       },
     }
+  },
+  validations: {
+    param: {
+      username: {
+        required,
+        checkUser: (value) => {
+          const result = checkUser(value)
+          if (result.code === 0) {
+            return true
+          } else {
+            return false
+          }
+        },
+      },
+      password: {
+        required,
+        checkPass: (value) => {
+          const result = checkPass(value)
+          if (result.code === 0) {
+            return true
+          } else {
+            return false
+          }
+        },
+      },
+    },
+  },
+  computed: {
+    userError() {
+      const errors = []
+      if (!this.$v.param.username.$dirty) return errors
+      !this.$v.param.username.required && errors.push(userTip)
+      !this.$v.param.username.checkUser &&
+        errors.push('用户名由6~12位字母和数字组成')
+      return errors
+    },
+    passwordError() {
+      const errors = []
+      if (!this.$v.param.password.$dirty) return errors
+      !this.$v.param.password.required && errors.push(passTip)
+      !this.$v.param.password.checkPass &&
+        errors.push('密码必须包括大小写字母和数字，可以使用特殊字符长度8~16位')
+      return errors
+    },
+  },
+  methods: {
+    login() {
+      this.loading = true
+      const { username, password } = this.param
+      this.$axios
+        .$post(UserApi.login, {
+          username,
+          password,
+        })
+        .then((res) => {
+          const { code, message, result } = res
+          if (code === 200 && result) {
+            this.$message({ type: 'success', message: '登录成功' })
+          } else {
+            this.$message({ type: 'error', message })
+          }
+        })
+        .catch(() => {
+          this.loading = false
+          this.$message({ type: 'error', message: '登录失败，请重试' })
+        })
+    },
   },
 }
 </script>

@@ -114,25 +114,30 @@ export default {
   },
   methods: {
     login() {
-      this.loading = true
-      const { username, password } = this.param
-      this.$axios
-        .$post(UserApi.login, {
-          username,
-          password,
-        })
-        .then((res) => {
-          const { code, message, result } = res
-          if (code === 200 && result) {
-            this.$message({ type: 'success', message: '登录成功' })
-          } else {
-            this.$message({ type: 'error', message })
-          }
-        })
-        .catch(() => {
-          this.loading = false
-          this.$message({ type: 'error', message: '登录失败，请重试' })
-        })
+      const validate = this.$v.param
+      validate.$touch()
+      if (!validate.$invalid) {
+        this.loading = true
+        const { username, password } = this.param
+        this.$axios
+          .$post(UserApi.login, {
+            username,
+            password,
+          })
+          .then((res) => {
+            this.loading = false
+            const { code, message, result } = res
+            if (code === 200 && result) {
+              this.$message({ type: 'success', message: '登录成功' })
+            } else {
+              this.$message({ type: 'error', message })
+            }
+          })
+          .catch(() => {
+            this.loading = false
+            this.$message({ type: 'error', message: '登录失败，请重试' })
+          })
+      }
     },
   },
 }

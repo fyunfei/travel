@@ -18,6 +18,9 @@ export default function ({ $axios, redirect }) {
     const error = toJSON && toJSON()
     console.log(error)
     switch (status) {
+      case 401:
+        redirect('/login')
+        break
       default:
         console.log('有一些错误存在')
         // console.log(status)

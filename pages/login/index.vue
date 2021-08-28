@@ -129,6 +129,10 @@ export default {
             const { code, message, result } = res
             if (code === 200 && result) {
               this.$message({ type: 'success', message: '登录成功' })
+              this.$cookiz.set('jwt_token', result, {
+                maxAge: 60 * 60 * 24 * 7 * 1000,
+              })
+              this.$router.push('/')
             } else {
               this.$message({ type: 'error', message })
             }

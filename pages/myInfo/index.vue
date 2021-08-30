@@ -9,7 +9,7 @@
       ></v-img>
       <div class="w-3/12 ml-10">
         <div>
-          <span>我的昵称</span>
+          <span>{{ 'userInfo.nickname' }}</span>
           <v-btn class="float-right" fab small color="#6A76AB" dark>
             <v-icon dark>mdi-wrench</v-icon>
           </v-btn>
@@ -24,9 +24,12 @@
 
 <script>
 export default {
-  validate({ params }) {
-    // 必须是number类型
-    return !!params.id
+  asyncData({ store }) {
+    const { userInfo } = store.state.user
+    // console.log(userInfo)
+    return {
+      userInfo,
+    }
   },
 }
 </script>

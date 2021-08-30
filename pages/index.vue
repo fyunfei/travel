@@ -15,7 +15,12 @@
 
 <script>
 export default {
-  data() {
+  async asyncData(ctx) {
+    const { store, $cookiz } = ctx
+    await store.dispatch('user/getUserInfo', ctx)
+    const { userInfo } = store.state.user
+    $cookiz.set('username', userInfo.username)
+    $cookiz.set('nickname', userInfo.nickname)
     return {
       appList: [
         {
@@ -41,7 +46,7 @@ export default {
         {
           text: '我的信息',
           img: 'male',
-          path: '/user',
+          path: `/myInfo`,
         },
       ],
     }

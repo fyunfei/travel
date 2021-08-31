@@ -2,7 +2,7 @@
  * @Author: fuyunfei
  * @Date: 2021-08-30 21:03:29
  * @Last Modified by: fuyunfei
- * @Last Modified time: 2021-08-30 21:54:26
+ * @Last Modified time: 2021-08-31 20:50:11
  */
 import UserApi from '@/api/user'
 
@@ -25,15 +25,22 @@ export const mutations = {
 
 export const actions = {
   register() {},
-  getUserInfo({ commit }) {
+  getUserInfo({ commit }, { $cookiz }) {
     return this.$axios
       .post(UserApi.userInfo)
       .then((res) => {
         const { code, result } = res.data
         if (code === 200 && result) {
           commit('setUserInfo', result)
+          const { username, nickname, birth, profile, intro, address } = result
+          $cookiz.set('username', username)
+          $cookiz.set('nickname', nickname)
+          $cookiz.set('birth', birth)
+          $cookiz.set('profile', profile)
+          $cookiz.set('intro', intro)
+          $cookiz.set('address', address)
         }
-        return Promise.resolve()
+        return Promise.resolve(result)
       })
       .catch((err) => console.log(err))
   },

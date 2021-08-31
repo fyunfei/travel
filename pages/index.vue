@@ -16,11 +16,8 @@
 <script>
 export default {
   async asyncData(ctx) {
-    const { store, $cookiz } = ctx
+    const { store } = ctx
     await store.dispatch('user/getUserInfo', ctx)
-    const { userInfo } = store.state.user
-    $cookiz.set('username', userInfo.username)
-    $cookiz.set('nickname', userInfo.nickname)
     return {
       appList: [
         {

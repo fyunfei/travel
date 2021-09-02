@@ -24,11 +24,19 @@
         <v-text-field
           v-model="registParam.nickname"
           color="#6c36ff"
-          label="昵称"
+          label="阁下尊称大名"
           :error-messages="nickError"
           @input="$v.registParam.nickname.$touch()"
           @blur="$v.registParam.nickname.$touch()"
         ></v-text-field>
+        <v-select
+          v-model="registParam.sex"
+          label="您是MM还是GG啊"
+          :items="sexOpts"
+          color="#6c36ff"
+          item-color=""
+        >
+        </v-select>
         <v-text-field
           v-model="registParam.phone"
           color="#6c36ff"
@@ -89,7 +97,18 @@ export default {
         password: '',
         passwordRepeat: '',
         phone: '',
+        sex: 1,
       },
+      sexOpts: [
+        {
+          text: 'GG',
+          value: 1,
+        },
+        {
+          text: 'MM',
+          value: 0,
+        },
+      ],
     }
   },
   validations: {
@@ -182,7 +201,7 @@ export default {
       const validate = this.$v.registParam
       validate.$touch()
       if (!validate.$invalid) {
-        const { username, nickname, password, phone } = this.registParam
+        const { username, nickname, password, phone, sex } = this.registParam
         this.loading = true
         this.$axios
           .$post(UserApi.register, {
@@ -190,6 +209,7 @@ export default {
             nickname,
             password,
             phone,
+            sex,
           })
           .then((res) => {
             this.loading = false

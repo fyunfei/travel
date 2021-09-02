@@ -4,24 +4,30 @@
 This is a website which can use it to make a travel plan.
 i think it can be used in different platform shortly!
 
-## todoList
+## v1.0.0 todoList
 ### 页面部分
 - [x] 首页
 - [x] 列表页
 - [x] 详情页
 - [ ] Make Plan
-  - [ ] 写文章
+  - [ ] 计划发布
   - [ ] 定位
 - [ ] 写游记 
+  - [ ] 文章发布
 - [ ] 用户页面
   - [x] 个人信息显示
-  - [ ] 设置页面 
+  - [ ] 设置页面
+  - [x] 登录
+  - [x] 注册 
 
 ...
 
 ### 前端功能部分
 - [x] 登录
 - [x] 注册
+- 写文章
+  - [ ] 游记
+  - [ ] 计划
 - [ ] 文章段落解析
 - [ ] 地图打卡
   - [ ] 旅行路线图

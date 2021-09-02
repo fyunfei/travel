@@ -2,7 +2,7 @@
  * @Author: fuyunfei
  * @Date: 2021-08-30 21:03:29
  * @Last Modified by: fuyunfei
- * @Last Modified time: 2021-08-31 20:50:11
+ * @Last Modified time: 2021-09-02 21:23:16
  */
 import UserApi from '@/api/user'
 
@@ -20,6 +20,9 @@ export const state = () => ({
 export const mutations = {
   setUserInfo(state, userInfo) {
     state.userInfo = userInfo
+  },
+  changeUserInfo(state, { key, value }) {
+    state.userInfo[key] = value
   },
 }
 

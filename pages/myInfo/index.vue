@@ -10,7 +10,14 @@
       <div class="w-3/12 ml-10">
         <div class="leading-10">
           <span>{{ userInfo.nickname }}</span>
-          <v-btn class="float-right" fab small color="#6A76AB" dark>
+          <v-btn
+            class="float-right"
+            fab
+            small
+            color="#6A76AB"
+            dark
+            @click="showNameDialog"
+          >
             <v-icon dark>mdi-wrench</v-icon>
           </v-btn>
         </div>
@@ -58,11 +65,16 @@
         >
       </div>
     </div>
+    <NameDialog v-model="nameVisible" />
   </div>
 </template>
 
 <script>
+import NameDialog from '@/components/myInfo/NameDialog'
 export default {
+  components: {
+    NameDialog,
+  },
   async asyncData(ctx) {
     const { store } = ctx
     /* const username = $cookiz.get('username')
@@ -91,12 +103,16 @@ export default {
     }
     return {
       editable: false,
+      nameVisible: false,
       ...result,
     }
   },
   methods: {
     showTextArea() {
       this.editable = true
+    },
+    showNameDialog() {
+      this.nameVisible = true
     },
     saveIntro() {
       this.editable = false

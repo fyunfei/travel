@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <v-app-bar color="#6A76AB" dark max-height="64">
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon v-if="!isHomePage" @click="backTo">
+        <v-icon> mdi-arrow-left </v-icon>
+      </v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <v-btn small fab class="custom float-right">
         <v-img
@@ -18,6 +20,16 @@
 <script>
 export default {
   middleware: ['auth'],
+  computed: {
+    isHomePage() {
+      return this.$route.name === 'index'
+    },
+  },
+  methods: {
+    backTo() {
+      this.$router.go(-1)
+    },
+  },
 }
 </script>
 <style>

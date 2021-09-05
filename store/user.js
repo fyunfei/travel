@@ -2,7 +2,7 @@
  * @Author: fuyunfei
  * @Date: 2021-08-30 21:03:29
  * @Last Modified by: fuyunfei
- * @Last Modified time: 2021-09-02 21:23:16
+ * @Last Modified time: 2021-09-05 19:19:52
  */
 import UserApi from '@/api/user'
 
@@ -45,6 +45,6 @@ export const actions = {
         }
         return Promise.resolve(result)
       })
-      .catch((err) => console.log(err))
+      .catch(() => {})
   },
 }

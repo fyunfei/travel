@@ -1,5 +1,5 @@
 <template>
-  <v-dialog width="500" :value="value" hide-overlay persistent>
+  <v-dialog width="600" :value="value" hide-overlay persistent>
     <v-card>
       <v-card-title>
         <span class="text-h6">账户信息设置</span>
@@ -61,6 +61,8 @@ import placeholder from '@/config/default'
 import { mapState, mapMutations } from 'vuex'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
+import UserApi from '@/api/user'
+const { updateInfo } = UserApi
 const { nickTip } = placeholder
 export default {
   mixins: [validationMixin],
@@ -108,9 +110,34 @@ export default {
       changeUserInfo: 'user/changeUserInfo',
     }),
     handleSave() {
+      this.loading = true
+      this.$axios
+        .$post(updateInfo, { nickname: this.param.nickname })
+        .then((res) => {
+          const { code, result, message } = res
+          this.loading = false
+          if (code === 200 && result) {
+            this.changeUserInfo({ key: 'nickname', value: this.param.nickname })
+            this.handleCancel()
+            this.$message({
+              type: 'success',
+              message: '修改成功',
+            })
+          } else {
+            this.$message({
+              type: 'error',
+              message,
+            })
+          }
+        })
+        .catch(() => {
+          this.loading = false
+          this.$message({
+            type: 'error',
+            message: '修改失败',
+          })
+        })
       // this.loading = true
-      this.changeUserInfo({ key: 'nickname', value: this.param.nickname })
-      this.handleCancel()
     },
     handleCancel() {
       this.$emit('input', false)
@@ -119,4 +146,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.login-wrap {
+  &_form {
+    width: 100%;
+  }
+}
+</style>

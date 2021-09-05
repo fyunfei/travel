@@ -50,17 +50,25 @@
     </div>
     <div class="w-3/12 mx-auto mt-5">
       <div v-if="!editable" class="intro" @click="showTextArea">
-        <pre class="intro_content">这里是自我介绍</pre>
+        <pre class="intro_content">{{
+          userInfo.intro || '快来简单介绍下自己吧！！'
+        }}</pre>
       </div>
       <div v-else>
         <v-textarea
+          v-model.trim="intro"
           label="个人简介"
           auto-grow
           color="#6c36ff"
           filled
           placeholder="快来简单介绍下自己吧！！"
         ></v-textarea>
-        <v-btn color="#6c36ff" style="width: 100%" dark @click="saveIntro"
+        <v-btn
+          color="#6c36ff"
+          style="width: 100%"
+          :loading="introLoading"
+          dark
+          @click="saveIntro"
           >保存</v-btn
         >
       </div>
@@ -71,29 +79,14 @@
 
 <script>
 import NameDialog from '@/components/myInfo/NameDialog'
+import UserApi from '@/api/user'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     NameDialog,
   },
   async asyncData(ctx) {
     const { store } = ctx
-    /* const username = $cookiz.get('username')
-    const nickname = $cookiz.get('nickname')
-    const birth = $cookiz.get('birth')
-    const profile = $cookiz.get('profile')
-    const intro = $cookiz.get('intro')
-    const address = $cookiz.get('address')
-    let userInfo
-    if (username && nickname) {
-      userInfo = {
-        username,
-        nickname,
-        birth,
-        profile,
-        intro,
-        address,
-      }
-    } */
     const result = {}
     try {
       const userInfo = await store.dispatch('user/getUserInfo', ctx)
@@ -102,20 +95,60 @@ export default {
       result.userInfo = {}
     }
     return {
+      intro: '', // 双向绑定个性签名，如果第一次保存时未做任何修改不触发请求
       editable: false,
       nameVisible: false,
+      introLoading: false,
       ...result,
     }
   },
   methods: {
+    ...mapMutations({
+      changeUserInfo: 'user/changeUserInfo',
+    }),
     showTextArea() {
       this.editable = true
+      this.intro = this.userInfo.intro
     },
     showNameDialog() {
       this.nameVisible = true
     },
     saveIntro() {
-      this.editable = false
+      if (this.userInfo.intro !== this.intro) {
+        this.introLoading = true
+        this.$axios
+          .$post(UserApi.updateInfo, {
+            intro: this.userInfo.intro,
+          })
+          .then((res) => {
+            const { code, message, result } = res
+            this.editable = false
+            this.introLoading = false
+            if (code && result) {
+              this.$message({
+                type: 'success',
+                message: '签名更新成功',
+              })
+              this.changeUserInfo({
+                key: 'intro',
+                value: this.intro,
+              })
+            } else {
+              this.$message({
+                type: 'error',
+                message,
+              })
+            }
+          })
+          .catch(() => {
+            this.$message({
+              type: 'error',
+              message: '更新失败',
+            })
+          })
+      } else {
+        this.editable = false
+      }
     },
   },
 }

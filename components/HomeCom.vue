@@ -3,12 +3,14 @@
     :class="{ shake: shaked }"
     class="w-4/12 mb-10 float-left cursor-pointer select-none"
   >
-    <div
-      class="icon my-0 mx-auto"
-      :class="`icon-${img}`"
-      @click="routeTo"
-      @mouseover="shaked = true"
-    ></div>
+    <nuxt-link :to="path">
+      <div
+        class="icon my-0 mx-auto"
+        :class="`icon-${img}`"
+        @mouseover="shaked = true"
+      ></div>
+    </nuxt-link>
+
     <p class="title text-center">{{ text }}</p>
   </div>
 </template>
@@ -44,7 +46,7 @@ export default {
 
 <style lang="scss" scoped>
 $a: '.icon';
-$types: 'travel', 'list', 'plan', 'map', 'male', 'female';
+$types: 'travel', 'list', 'plan', 'map', 'male', 'female', 'travels';
 #{$a} {
   width: 100px;
   height: 100px;

@@ -9,15 +9,14 @@
         :text="app.text"
       />
     </div>
-    <nuxt-child v-else></nuxt-child>
   </div>
 </template>
 
 <script>
 export default {
-  async asyncData(ctx) {
-    const { store } = ctx
-    await store.dispatch('user/getUserInfo', ctx)
+  asyncData() {
+    // const { store } = ctx
+    // await store.dispatch('user/getUserInfo', ctx)
     return {
       appList: [
         {
@@ -34,6 +33,11 @@ export default {
           text: '制定计划',
           img: 'plan',
           path: '/plan',
+        },
+        {
+          text: '写游记',
+          img: 'travels',
+          path: '/travels',
         },
         {
           text: '地图',

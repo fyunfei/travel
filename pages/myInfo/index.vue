@@ -14,8 +14,7 @@
             class="float-right"
             fab
             small
-            color="#6A76AB"
-            dark
+            color="primary"
             @click="showNameDialog"
           >
             <v-icon dark>mdi-wrench</v-icon>
@@ -59,15 +58,14 @@
           v-model.trim="intro"
           label="个人简介"
           auto-grow
-          color="#6c36ff"
           filled
           placeholder="快来简单介绍下自己吧！！"
         ></v-textarea>
         <v-btn
-          color="#6c36ff"
           style="width: 100%"
           :loading="introLoading"
-          dark
+          color="primary"
+          :disabled="introLoading"
           @click="saveIntro"
           >保存</v-btn
         >
@@ -102,6 +100,7 @@ export default {
       ...result,
     }
   },
+  // c971d385-b6ab-4c8b-a29d-8c86c30c6836
   methods: {
     ...mapMutations({
       changeUserInfo: 'user/changeUserInfo',
@@ -118,7 +117,7 @@ export default {
         this.introLoading = true
         this.$axios
           .$post(UserApi.updateInfo, {
-            intro: this.userInfo.intro,
+            intro: this.intro,
           })
           .then((res) => {
             const { code, message, result } = res
@@ -184,7 +183,7 @@ export default {
     width: 8px;
     height: 6px;
     position: absolute;
-    background-image: url('../../assets/pic/ico_sprite.png');
+    background-image: url('@/assets/pic/ico_sprite.png');
   }
 }
 </style>

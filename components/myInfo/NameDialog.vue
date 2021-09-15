@@ -16,7 +16,6 @@
               <v-col :cols="24">
                 <v-text-field
                   :value="userInfo.username"
-                  color="#6c36ff"
                   label="用户名"
                   readonly
                 ></v-text-field>
@@ -26,7 +25,6 @@
               <v-col :cols="24">
                 <v-text-field
                   v-model="param.nickname"
-                  color="#6c36ff"
                   label="昵称"
                   :error-messages="nickError"
                   @input="$v.param.nickname.$touch()"
@@ -39,13 +37,12 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn coloe="#fff" :loading="loading" @click="handleCancel">
+        <v-btn color="#fff" :loading="loading" @click="handleCancel">
           取消
         </v-btn>
         <v-btn
-          color="#6c36ff"
           class="login-wrap_btn"
-          dark
+          color="primary"
           :loading="loading"
           @click="handleSave"
         >

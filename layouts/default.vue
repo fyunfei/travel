@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app light>
     <v-app-bar color="#6A76AB" dark max-height="64">
       <v-app-bar-nav-icon v-if="!isHomePage" @click="backTo">
         <v-icon> mdi-arrow-left </v-icon>

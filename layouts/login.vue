@@ -1,5 +1,5 @@
 <template>
-  <v-app class="login-container">
+  <v-app light class="login-container">
     <Nuxt />
   </v-app>
 </template>

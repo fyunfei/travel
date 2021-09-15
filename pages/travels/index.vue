@@ -11,8 +11,24 @@
         <div class="article-info float-left">
           <h1 class="article-title">
             <!-- 东边日出西边雨｜夏日的荷兰比利时11日自由行 -->
-            请输入游记标题
-            <PlanTitleDialog />
+            <p
+              v-if="!editable"
+              class="article-title_info"
+              @click="editable = !editable"
+            >
+              请输入游记标题
+            </p>
+            <v-text-field
+              v-else
+              solo
+              light
+              background-color="#fff"
+              maxlength="25"
+              counter
+              clearable
+              placeholder="请输入游记标题"
+            />
+            <!-- <TravelsTitleDialog /> -->
           </h1>
         </div>
       </div>
@@ -24,6 +40,11 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+  data() {
+    return {
+      editable: false,
+    }
+  },
   computed: {
     ...mapState({
       userInfo: (state) => state.user.userInfo,
@@ -72,11 +93,15 @@ export default {
     left: 150px;
     right: 0;
     .article-title {
+      width: 100%;
       position: absolute;
       top: -60px;
       font-size: 26px;
       font-weight: bold;
       color: #fff;
+      &_info {
+        cursor: pointer;
+      }
     }
   }
   .user {

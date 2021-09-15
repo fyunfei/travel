@@ -8,8 +8,8 @@
         <v-icon dark> mdi-pencil </v-icon>
       </v-btn>
     </template>
-    <v-card>
-      <v-text-field placeholder="请输入游记标题" />
+    <v-card class="title-container">
+      <v-text-field maxlength="25" counter placeholder="请输入游记标题" />
     </v-card>
   </v-dialog>
 </template>
@@ -24,4 +24,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.title-container {
+  padding: 10px;
+}
+</style>

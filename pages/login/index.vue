@@ -12,7 +12,6 @@
       >
         <v-text-field
           v-model="param.username"
-          color="#6c36ff"
           label="用户名"
           :error-messages="userError"
           @input="$v.param.username.$touch()"
@@ -20,7 +19,6 @@
         ></v-text-field>
         <v-text-field
           v-model="param.password"
-          color="#6c36ff"
           label="密码"
           type="password"
           :error-messages="passwordError"
@@ -36,10 +34,9 @@
           >
         </div>
         <v-btn
-          color="#6c36ff"
           class="login-wrap_btn"
-          style="width: 100%"
           dark
+          color="primary"
           :loading="loading"
           @click="login"
           >登录</v-btn

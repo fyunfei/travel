@@ -15,7 +15,6 @@
       >
         <v-text-field
           v-model="registParam.username"
-          color="#6c36ff"
           label="用户名"
           :error-messages="userError"
           @input="$v.registParam.username.$touch()"
@@ -23,7 +22,6 @@
         ></v-text-field>
         <v-text-field
           v-model="registParam.nickname"
-          color="#6c36ff"
           label="阁下尊称大名"
           :error-messages="nickError"
           @input="$v.registParam.nickname.$touch()"
@@ -33,13 +31,11 @@
           v-model="registParam.sex"
           label="您是MM还是GG啊"
           :items="sexOpts"
-          color="#6c36ff"
           item-color=""
         >
         </v-select>
         <v-text-field
           v-model="registParam.phone"
-          color="#6c36ff"
           label="手机号"
           :error-messages="phoneError"
           @input="$v.registParam.phone.$touch()"
@@ -47,7 +43,6 @@
         ></v-text-field>
         <v-text-field
           v-model="registParam.password"
-          color="#6c36ff"
           label="密码"
           type="password"
           :error-messages="passwordError"
@@ -56,7 +51,6 @@
         ></v-text-field>
         <v-text-field
           v-model="registParam.passwordRepeat"
-          color="#6c36ff"
           label="再次输入密码"
           type="password"
           :error-messages="repeatError"
@@ -64,11 +58,10 @@
           @blur="$v.registParam.passwordRepeat.$touch()"
         ></v-text-field>
         <v-btn
-          color="#6c36ff"
           class="login-wrap_btn"
           style="width: 100%"
-          dark
           :loading="loading"
+          color="primary"
           @click="register"
           >注册</v-btn
         >

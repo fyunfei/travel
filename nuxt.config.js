@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
+// import colors from 'vuetify/es5/util/colors'
 export default {
   server: {
     host: '0.0.0.0',
@@ -39,9 +39,9 @@ export default {
       src: '@/plugins/message/index',
       ssr: false,
     },
-    {
+    /*     {
       src: '@/plugins/vuetify',
-    },
+    }, */
     {
       src: '@/plugins/axios',
     },
@@ -58,25 +58,29 @@ export default {
     '@nuxtjs/tailwindcss',
     '@nuxtjs/vuetify',
   ],
-
+  vuetify: {
+    theme: {
+      dark: false,
+      options: {
+        cspNonce: 'vuetify',
+      },
+      themes: {
+        light: {
+          primary: '#6c36ff',
+        },
+        dark: {
+          primary: '#6c36ff',
+        },
+      },
+    },
+  },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
   ],
-  vuetify: {
-    theme: {
-      dark: false,
-      primary: colors.blue.darken2,
-      accent: colors.grey.darken3,
-      secondary: colors.amber.darken3,
-      info: colors.teal.lighten1,
-      warning: colors.amber.base,
-      error: colors.deepOrange.accent4,
-      success: colors.green.accent3,
-    },
-  },
+
   pageTransition: 'page',
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import wangeditor from 'wangeditor'
+import Wangeditor from 'wangeditor'
 
-Vue.prototype.$wangeditor = (content) => {
-  return new wangeditor(content)
+Vue.prototype.$wangeditor = (toolbarEle, articleEle) => {
+  return new Wangeditor(toolbarEle, articleEle)
 }

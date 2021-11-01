@@ -3,6 +3,7 @@
     <div ref="topic" class="topic">
       <div class="topic-bg"></div>
     </div>
+    <!-- 标题start -->
     <header class="relative">
       <div class="content-header_con clearfix">
         <div class="profile rounded-full overflow-hidden">
@@ -33,7 +34,14 @@
         </div>
       </div>
     </header>
-    <!-- 标题弹框 -->
+    <!-- 标题end -->
+    <!-- 文章start -->
+    <div class="article-editor w-10/12 mx-auto">
+      <div id="toolbar" class="article-tool"></div>
+      <article id="article" class="article-content"></article>
+    </div>
+
+    <!-- 文章end -->
   </div>
 </template>
 
@@ -43,6 +51,7 @@ export default {
   data() {
     return {
       editable: false,
+      editor: null,
     }
   },
   computed: {
@@ -51,6 +60,11 @@ export default {
     }),
   },
   mounted() {
+    this.$nextTick(() => {
+      const editor = this.$wangeditor('#toolbar', '#article')
+      editor.create()
+      this.editor = editor
+    })
     const topicEl = this.$refs.topic
     topicEl.style.height = document.documentElement.offsetWidth * 0.33 + 'px'
     window.addEventListener('resize', () => {
@@ -112,5 +126,9 @@ export default {
       font-weight: bold;
     }
   }
+}
+.article-editor {
+  position: relative;
+  margin-top: 50px;
 }
 </style>

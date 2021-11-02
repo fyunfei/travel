@@ -5,7 +5,7 @@
     </div>
     <!-- 标题start -->
     <header class="relative">
-      <div class="content-header_con clearfix">
+      <div class="content-header_con w-8/12 mx-auto clearfix">
         <div class="profile rounded-full overflow-hidden">
           <img :src="userInfo.profile" alt />
         </div>
@@ -17,17 +17,20 @@
               class="article-title_info"
               @click="editable = !editable"
             >
-              请输入游记标题
+              {{ title || '请输入游记标题' }}
             </p>
             <v-text-field
               v-else
+              v-model.trim="title"
               solo
               light
+              autofocus
               background-color="#fff"
               maxlength="25"
               counter
               clearable
               placeholder="请输入游记标题"
+              @blur="editable = !editable"
             />
             <!-- <TravelsTitleDialog /> -->
           </h1>
@@ -36,12 +39,25 @@
     </header>
     <!-- 标题end -->
     <!-- 文章start -->
-    <div class="article-editor w-10/12 mx-auto">
-      <div id="toolbar" class="article-tool"></div>
-      <article id="article" class="article-content"></article>
-    </div>
-
+    <Editor v-model="content" class="article-editor w-8/12 mx-auto" />
     <!-- 文章end -->
+    <!-- 发布按钮 -->
+    <transition name="translate">
+      <div v-if="actionBtnVisible" class="publish">
+        <v-row class="mb-6">
+          <v-btn color="primary" min-width="120">
+            存草稿
+            <v-icon>description</v-icon>
+          </v-btn>
+        </v-row>
+        <v-row>
+          <v-btn color="primary" min-width="120">
+            发布文章
+            <v-icon>edit</v-icon>
+          </v-btn>
+        </v-row>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -51,26 +67,26 @@ export default {
   data() {
     return {
       editable: false,
-      editor: null,
+      title: '', // 文章标题
+      content: '', // 文章内容
     }
   },
   computed: {
     ...mapState({
       userInfo: (state) => state.user.userInfo,
     }),
+    actionBtnVisible() {
+      return this.title || this.content
+    },
   },
   mounted() {
-    this.$nextTick(() => {
-      const editor = this.$wangeditor('#toolbar', '#article')
-      editor.create()
-      this.editor = editor
-    })
     const topicEl = this.$refs.topic
     topicEl.style.height = document.documentElement.offsetWidth * 0.33 + 'px'
     window.addEventListener('resize', () => {
       topicEl.style.height = document.documentElement.offsetWidth * 0.33 + 'px'
     })
   },
+  methods: {},
 }
 </script>
 
@@ -90,8 +106,6 @@ export default {
 }
 .content-header_con {
   position: relative;
-  width: 1140px;
-  margin: 0 auto;
   .profile {
     position: absolute;
     top: -70px;
@@ -130,5 +144,20 @@ export default {
 .article-editor {
   position: relative;
   margin-top: 50px;
+}
+.publish {
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+}
+
+.translate-enter-active,
+.translate-leave-active {
+  transform: translate3d(0, 0, 0);
+  transition: all 300ms ease;
+}
+.translate-enter,
+.translate-leave-to {
+  transform: translate3d(200px, 0, 0);
 }
 </style>

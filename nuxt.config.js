@@ -45,6 +45,10 @@ export default {
     {
       src: '@/plugins/axios',
     },
+    {
+      src: '@/plugins/cropper',
+      ssr: false,
+    },
   ],
   loading: false,
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -93,5 +97,7 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    vendor: ['vue-cropper'],
+  },
 }

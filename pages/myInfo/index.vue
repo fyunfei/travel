@@ -1,12 +1,15 @@
 <template>
   <div>
     <div class="w-10/12 mx-auto mt-5 flex justify-center items-center">
-      <v-img
-        max-width="120"
-        max-height="120"
-        contain
-        src="http://image.followmyheart.cn/male.svg"
-      ></v-img>
+      <Uploader>
+        <v-img
+          max-width="120"
+          max-height="120"
+          contain
+          src="http://image.followmyheart.cn/male.svg"
+        ></v-img>
+      </Uploader>
+      <CustomCropper ref="cropper" />
       <div class="w-3/12 ml-10">
         <div class="leading-10">
           <span>{{ userInfo.nickname }}</span>
@@ -77,11 +80,13 @@
 
 <script>
 import NameDialog from '@/components/myInfo/NameDialog'
+import CustomCropper from '@/components/cropper/CustomCropper'
 import UserApi from '@/api/user'
 import { mapMutations } from 'vuex'
 export default {
   components: {
     NameDialog,
+    CustomCropper,
   },
   async asyncData(ctx) {
     const { store } = ctx
@@ -99,6 +104,11 @@ export default {
       introLoading: false,
       ...result,
     }
+  },
+  mounted() {
+    this.$refs.cropper.init(
+      'http://image.followmyheart.cn/node%E4%BC%A0%E5%80%BC.jpg'
+    )
   },
   // c971d385-b6ab-4c8b-a29d-8c86c30c6836
   methods: {

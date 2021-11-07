@@ -1,7 +1,7 @@
 <template>
   <div class="w-full item-con clearfix" @click="routeTo">
     <div class="item-left item-left_img float-left"></div>
-    <div class="item-right float-right">
+    <div class="item-right float-left">
       <p class="item-right_title">
         <a href="javascript:void(0)">
           做无用之事，遣有涯之生，藏在古诗词中的旅行种草攻略。

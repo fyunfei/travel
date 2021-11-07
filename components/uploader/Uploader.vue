@@ -26,6 +26,10 @@ export default {
   mounted() {
     this.uploader = new Uploader(this.options)
     this.uploader.assignBrowse(this.$refs.uploader, ...this.browseOpts)
+    this.uploader.on('fileAdded', (file) => {
+      this.$emit('fileAdded', file)
+    })
+    this.$emit('uploader', this.uploader)
   },
 }
 </script>

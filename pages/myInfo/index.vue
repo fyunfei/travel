@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="w-10/12 mx-auto mt-5 flex justify-center items-center">
-      <Uploader>
+      <Uploader
+        :options="options"
+        :browse-opts="browseOpts"
+        @fileAdded="fileAdded"
+        @uploader="getUploader"
+      >
         <v-img
           max-width="120"
           max-height="120"
@@ -9,7 +14,12 @@
           src="http://image.followmyheart.cn/male.svg"
         ></v-img>
       </Uploader>
-      <CustomCropper ref="cropper" />
+      <CustomCropper
+        ref="cropper"
+        v-model="cropperVisible"
+        :img="cropperImg"
+        @cancel="cropperCancel"
+      />
       <div class="w-3/12 ml-10">
         <div class="leading-10">
           <span>{{ userInfo.nickname }}</span>
@@ -99,16 +109,20 @@ export default {
     }
     return {
       intro: '', // 双向绑定个性签名，如果第一次保存时未做任何修改不触发请求
+      cropperImg: '',
+      uploader: null,
       editable: false,
       nameVisible: false,
+      cropperVisible: false,
       introLoading: false,
+      options: {
+        target: 'http://www.followmyheart.cn/api/uploader',
+        chunkSize: 1024 * 1024,
+        testChunks: false,
+      },
+      browseOpts: [false, false, { accept: 'image/*' }],
       ...result,
     }
-  },
-  mounted() {
-    this.$refs.cropper.init(
-      'http://image.followmyheart.cn/node%E4%BC%A0%E5%80%BC.jpg'
-    )
   },
   // c971d385-b6ab-4c8b-a29d-8c86c30c6836
   methods: {
@@ -158,6 +172,22 @@ export default {
       } else {
         this.editable = false
       }
+    },
+    fileAdded(file) {
+      // 头像上传流程采用服务器qiniu直传
+      const reader = new FileReader()
+      reader.readAsDataURL(file.file)
+      reader.onload = (e) => {
+        const base64 = e.target.result
+        this.cropperImg = base64
+        this.cropperVisible = true
+      }
+    },
+    getUploader(uploader) {
+      this.uploader = uploader
+    },
+    cropperCancel() {
+      this.uploader.cancel()
     },
   },
 }

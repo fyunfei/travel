@@ -5,13 +5,19 @@
         <span class="text-h6">裁剪图片</span>
       </v-card-title>
       <v-card-text>
-        <div ref="cropperContainer" class="cropper-container">
+        <div
+          ref="cropperContainer"
+          class="cropper-container"
+          style="width: 500px"
+        >
           <client-only>
             <VueCropper
               ref="cropper"
               :img="img"
               :auto-crop="true"
               :can-scale="false"
+              :original="false"
+              max-img-size="800"
               :center-box="true"
               :fixed="true"
               :fixed-number="[1, 1]"
@@ -73,8 +79,8 @@ export default {
       target.src = imgUrl
       target.onload = () => {
         const ele = this.$refs.cropperContainer
-        ele.style.width = target.width + 'px'
-        ele.style.height = target.height + 'px'
+        ele.style.width = target.width > 500 ? '500px' : `${target.width}px`
+        ele.style.height = target.height > 500 ? '500px' : `${target.height}px`
         this.conWidth = target.width + 200
       }
     },
@@ -86,6 +92,7 @@ export default {
       this.$refs.cropper.getCropBlob((data) => {
         // do something
         this.$emit('getBlob', data)
+        this.$emit('input', false)
       })
     },
   },

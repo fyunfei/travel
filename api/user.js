@@ -3,4 +3,5 @@ export default {
   login: '/api/user/login', // post
   userInfo: '/api/user/userInfo',
   updateInfo: '/api/user/update',
+  upload: '/api/upload/local',
 }

@@ -11,7 +11,7 @@
           max-width="120"
           max-height="120"
           contain
-          src="http://image.followmyheart.cn/male.svg"
+          :src="userInfo.profile"
         ></v-img>
       </Uploader>
       <CustomCropper
@@ -19,6 +19,7 @@
         v-model="cropperVisible"
         :img="cropperImg"
         @cancel="cropperCancel"
+        @getBlob="uploadProfile"
       />
       <div class="w-3/12 ml-10">
         <div class="leading-10">
@@ -188,6 +189,11 @@ export default {
     },
     cropperCancel() {
       this.uploader.cancel()
+    },
+    uploadProfile(blob) {
+      console.log(blob)
+      // 触发upload接口请求
+      // this.$axios.$post(UserApi.upload, )
     },
   },
 }

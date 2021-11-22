@@ -2,9 +2,10 @@
   <div>
     <div class="w-10/12 mx-auto mt-5 flex justify-center items-center">
       <Uploader
+        :cropper="true"
         :options="options"
         :browse-opts="browseOpts"
-        @fileAdded="fileAdded"
+        @change="change"
         @uploader="getUploader"
       >
         <v-img
@@ -100,7 +101,7 @@ export default {
     CustomCropper,
   },
   async asyncData(ctx) {
-    const { store } = ctx
+    const { store, $cookiz } = ctx
     const result = {}
     try {
       const userInfo = await store.dispatch('user/getUserInfo', ctx)
@@ -112,14 +113,18 @@ export default {
       intro: '', // 双向绑定个性签名，如果第一次保存时未做任何修改不触发请求
       cropperImg: '',
       uploader: null,
+      profile: null, // 头像文件实例
       editable: false,
       nameVisible: false,
       cropperVisible: false,
       introLoading: false,
       options: {
-        target: 'http://www.followmyheart.cn/api/uploader',
+        target: '/api/upload/local',
         chunkSize: 1024 * 1024,
         testChunks: false,
+        headers: {
+          Authorization: `Bearer ${$cookiz.get('jwt_token')}`,
+        },
       },
       browseOpts: [false, false, { accept: 'image/*' }],
       ...result,
@@ -174,10 +179,12 @@ export default {
         this.editable = false
       }
     },
-    fileAdded(file) {
+    change(event, uploader) {
+      const file = event.target.files[0]
       // 头像上传流程采用服务器qiniu直传
       const reader = new FileReader()
-      reader.readAsDataURL(file.file)
+      this.profile = file
+      reader.readAsDataURL(file)
       reader.onload = (e) => {
         const base64 = e.target.result
         this.cropperImg = base64
@@ -191,9 +198,17 @@ export default {
       this.uploader.cancel()
     },
     uploadProfile(blob) {
-      console.log(blob)
+      const file = new File([blob], this.profile.name, {
+        type: this.profile.type,
+      })
+      file.cropper = true
+      this.uploader.cancel()
+      this.uploader.addFile(file)
+      this.uploader.upload()
       // 触发upload接口请求
       // this.$axios.$post(UserApi.upload, )
+      // this.uploader.add
+      // this.uploader.upload()
     },
   },
 }

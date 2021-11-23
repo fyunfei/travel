@@ -6,21 +6,22 @@
       </v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <v-btn small fab class="custom float-right">
-        <v-img
-          width="50"
-          height="50"
-          contain
-          src="http://image.followmyheart.cn/male.svg"
-        ></v-img>
+        <v-avatar size="50">
+          <v-img width="50" height="50" contain :src="userInfo.profile"></v-img>
+        </v-avatar>
       </v-btn>
     </v-app-bar>
     <Nuxt />
   </v-app>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   middleware: ['auth'],
   computed: {
+    ...mapState({
+      userInfo: (state) => state.user.userInfo,
+    }),
     isHomePage() {
       return this.$route.name === 'index'
     },

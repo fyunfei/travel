@@ -7,6 +7,7 @@
         :img="app.img"
         :path="app.path"
         :text="app.text"
+        :profile="app.profile"
       />
     </div>
   </div>
@@ -14,9 +15,8 @@
 
 <script>
 export default {
-  asyncData() {
-    // const { store } = ctx
-    // await store.dispatch('user/getUserInfo', ctx)
+  asyncData({ $cookiz }) {
+    const profile = $cookiz.get('profile')
     return {
       appList: [
         {
@@ -46,8 +46,9 @@ export default {
         },
         {
           text: '我的信息',
-          img: 'male',
+          img: '',
           path: `/myInfo`,
+          profile,
         },
       ],
     }

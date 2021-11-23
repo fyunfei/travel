@@ -1,5 +1,5 @@
 <template>
-  <div ref="uploader">
+  <div ref="uploader" class="uploader">
     <slot />
   </div>
 </template>
@@ -43,9 +43,16 @@ export default {
     this.uploader.on('filesSubmitted', (file) => {
       this.$emit('filesSubmitted', file, this.uploader)
     })
+    this.uploader.on('fileSuccess', (rootFile, file, message, chunk) => {
+      this.$emit('fileSuccess', { rootFile, file, message, chunk })
+    })
     this.$emit('uploader', this.uploader)
   },
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.uploader {
+  cursor: pointer;
+}
+</style>

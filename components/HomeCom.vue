@@ -6,9 +6,18 @@
     <nuxt-link :to="path">
       <div
         class="icon my-0 mx-auto"
-        :class="`icon-${img}`"
+        :class="img ? `icon-${img}` : ''"
         @mouseover="shaked = true"
-      ></div>
+      >
+        <v-avatar v-if="profile" size="100">
+          <v-img
+            max-width="120"
+            max-height="120"
+            contain
+            :src="profile"
+          ></v-img>
+        </v-avatar>
+      </div>
     </nuxt-link>
 
     <p class="title text-center">{{ text }}</p>
@@ -27,6 +36,10 @@ export default {
       default: '',
     },
     path: {
+      type: String,
+      default: '',
+    },
+    profile: {
       type: String,
       default: '',
     },

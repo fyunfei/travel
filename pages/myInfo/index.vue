@@ -6,14 +6,17 @@
         :options="options"
         :browse-opts="browseOpts"
         @change="change"
+        @fileSuccess="fileSuccess"
         @uploader="getUploader"
       >
-        <v-img
-          max-width="120"
-          max-height="120"
-          contain
-          :src="userInfo.profile"
-        ></v-img>
+        <v-avatar size="100">
+          <v-img
+            max-width="120"
+            max-height="120"
+            contain
+            :src="userInfo.profile"
+          ></v-img>
+        </v-avatar>
       </Uploader>
       <CustomCropper
         ref="cropper"
@@ -93,8 +96,7 @@
 <script>
 import NameDialog from '@/components/myInfo/NameDialog'
 import CustomCropper from '@/components/cropper/CustomCropper'
-import UserApi from '@/api/user'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 export default {
   components: {
     NameDialog,
@@ -119,7 +121,7 @@ export default {
       cropperVisible: false,
       introLoading: false,
       options: {
-        target: '/api/upload/local',
+        target: '/api/upload/profile',
         chunkSize: 1024 * 1024,
         testChunks: false,
         headers: {
@@ -135,6 +137,7 @@ export default {
     ...mapMutations({
       changeUserInfo: 'user/changeUserInfo',
     }),
+    ...mapActions({ updateInfo: 'user/updateInfo' }),
     showTextArea() {
       this.editable = true
       this.intro = this.userInfo.intro
@@ -142,39 +145,28 @@ export default {
     showNameDialog() {
       this.nameVisible = true
     },
-    saveIntro() {
+    async saveIntro() {
       if (this.userInfo.intro !== this.intro) {
         this.introLoading = true
-        this.$axios
-          .$post(UserApi.updateInfo, {
-            intro: this.intro,
+        try {
+          await this.updateInfo({
+            $cookiz: this.$cookiz,
+            info: {
+              intro: this.intro,
+            },
           })
-          .then((res) => {
-            const { code, message, result } = res
-            this.editable = false
-            this.introLoading = false
-            if (code && result) {
-              this.$message({
-                type: 'success',
-                message: '签名更新成功',
-              })
-              this.changeUserInfo({
-                key: 'intro',
-                value: this.intro,
-              })
-            } else {
-              this.$message({
-                type: 'error',
-                message,
-              })
-            }
+          this.$message({
+            type: 'success',
+            message: '签名更新成功',
           })
-          .catch(() => {
-            this.$message({
-              type: 'error',
-              message: '更新失败',
-            })
+        } catch (message) {
+          this.$message({
+            type: 'error',
+            message,
           })
+        }
+        this.editable = false
+        this.introLoading = false
       } else {
         this.editable = false
       }
@@ -209,6 +201,28 @@ export default {
       // this.$axios.$post(UserApi.upload, )
       // this.uploader.add
       // this.uploader.upload()
+    },
+    async fileSuccess({ message }) {
+      const result = JSON.parse(message)
+      if (result.code === 200) {
+        try {
+          await this.updateInfo({
+            $cookiz: this.$cookiz,
+            info: {
+              profile: result.result,
+            },
+          })
+          this.$message({
+            type: 'success',
+            message: '头像上传成功',
+          })
+        } catch (message) {
+          this.$message({
+            type: 'error',
+            message,
+          })
+        }
+      }
     },
   },
 }

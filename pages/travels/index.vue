@@ -81,9 +81,10 @@ export default {
   },
   mounted() {
     const topicEl = this.$refs.topic
-    topicEl.style.height = document.documentElement.offsetWidth * 0.33 + 'px'
+    // 默认0.33
+    topicEl.style.height = document.documentElement.offsetWidth * 0.22 + 'px'
     window.addEventListener('resize', () => {
-      topicEl.style.height = document.documentElement.offsetWidth * 0.33 + 'px'
+      topicEl.style.height = document.documentElement.offsetWidth * 0.22 + 'px'
     })
   },
   methods: {},
@@ -102,6 +103,7 @@ export default {
     height: 100%;
     background-image: url('@/assets/pic/topicPic.jpg');
     background-size: cover;
+    background-position: center center;
   }
 }
 .content-header_con {

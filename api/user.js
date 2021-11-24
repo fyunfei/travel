@@ -4,4 +4,5 @@ export default {
   userInfo: '/api/user/userInfo',
   updateInfo: '/api/user/update',
   upload: '/api/upload/local',
+  uploadEditor: '/api/upload/editor',
 }

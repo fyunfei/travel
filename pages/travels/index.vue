@@ -11,17 +11,16 @@
         </div>
         <div class="article-info float-left">
           <h1 class="article-title">
-            <!-- 东边日出西边雨｜夏日的荷兰比利时11日自由行 -->
             <p
               v-if="!editable"
               class="article-title_info"
               @click="editable = !editable"
             >
-              {{ title || '请输入游记标题' }}
+              {{ article.title || '请输入游记标题' }}
             </p>
             <v-text-field
               v-else
-              v-model.trim="title"
+              v-model.trim="article.title"
               solo
               light
               autofocus
@@ -39,19 +38,19 @@
     </header>
     <!-- 标题end -->
     <!-- 文章start -->
-    <Editor v-model="content" class="article-editor w-8/12 mx-auto" />
+    <Editor v-model="article.content" class="article-editor w-8/12 mx-auto" />
     <!-- 文章end -->
     <!-- 发布按钮 -->
     <transition name="translate">
       <div v-if="actionBtnVisible" class="publish">
         <v-row class="mb-6">
-          <v-btn color="primary" min-width="120">
+          <v-btn color="primary" min-width="120" @click="publish(1)">
             存草稿
             <v-icon>description</v-icon>
           </v-btn>
         </v-row>
         <v-row>
-          <v-btn color="primary" min-width="120">
+          <v-btn color="primary" min-width="120" @click="publish()">
             发布文章
             <v-icon>edit</v-icon>
           </v-btn>
@@ -63,12 +62,15 @@
 
 <script>
 import { mapState } from 'vuex'
+import ArticleApi from '@/api/travelArticle'
 export default {
   data() {
     return {
       editable: false,
-      title: '', // 文章标题
-      content: '', // 文章内容
+      article: {
+        title: '', // 文章标题
+        content: '', // 文章内容
+      },
     }
   },
   computed: {
@@ -76,7 +78,7 @@ export default {
       userInfo: (state) => state.user.userInfo,
     }),
     actionBtnVisible() {
-      return this.title || this.content
+      return this.article.title || this.article.content
     },
   },
   mounted() {
@@ -87,7 +89,27 @@ export default {
       topicEl.style.height = document.documentElement.offsetWidth * 0.22 + 'px'
     })
   },
-  methods: {},
+  methods: {
+    publish(draft = 0) {
+      this.$axios
+        .$post(ArticleApi.write, { draft, ...this.article })
+        .then((res) => {
+          const { code, result, message } = res
+          if (code === 200 && result) {
+            this.$message({ type: 'success', message })
+            this.$router.push('/list')
+          } else {
+            this.$message({ type: 'error', message })
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: 'error',
+            message: `游记${this.article.draft ? '保存' : '发布'}失败`,
+          })
+        })
+    },
+  },
 }
 </script>
 

@@ -5,7 +5,23 @@
 </template>
 
 <script>
-export default {}
+import travelApi from '@/api/travelArticle'
+export default {
+  async asyncData({ $axios }) {
+    const params = {
+      page: 1,
+      pageSize: 10,
+      draft: 1,
+    }
+    try {
+      const result = await $axios.get(travelApi.list, { params })
+      console.log(result)
+    } catch (err) {}
+    return {
+      ...params,
+    }
+  },
+}
 </script>
 
 <style lang="scss" scoped></style>

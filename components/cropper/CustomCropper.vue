@@ -20,7 +20,7 @@
               max-img-size="800"
               :center-box="true"
               :fixed="true"
-              :fixed-number="[1, 1]"
+              :fixed-number="ratio"
             />
           </client-only>
         </div>
@@ -51,6 +51,10 @@
  */
 export default {
   props: {
+    ratio: {
+      type: Array,
+      default: () => [1, 1],
+    },
     value: {
       type: Boolean,
       default: true,

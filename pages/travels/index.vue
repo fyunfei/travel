@@ -1,7 +1,29 @@
 <template>
   <div>
     <div ref="topic" class="topic">
-      <div class="topic-bg"></div>
+      <Uploader
+        :cropper="true"
+        :options="options"
+        :browse-opts="browseOpts"
+        @change="change"
+        @fileSuccess="fileSuccess"
+        @uploader="getUploader"
+      >
+        <div
+          class="topic-bg"
+          :style="{
+            'background-image': `url(${article.banner})`,
+          }"
+        ></div>
+      </Uploader>
+      <CustomCropper
+        ref="cropper"
+        v-model="cropperVisible"
+        :img="cropperImg"
+        :ratio="[16, 9]"
+        @cancel="cropperCancel"
+        @getBlob="uploadProfile"
+      />
     </div>
     <!-- 标题start -->
     <header class="relative">
@@ -38,7 +60,11 @@
     </header>
     <!-- 标题end -->
     <!-- 文章start -->
-    <Editor v-model="article.content" class="article-editor w-8/12 mx-auto" />
+    <Editor
+      v-model="article.content"
+      :guid="guid"
+      class="article-editor w-8/12 mx-auto"
+    />
     <!-- 文章end -->
     <!-- 发布按钮 -->
     <transition name="translate">
@@ -62,15 +88,38 @@
 
 <script>
 import { mapState } from 'vuex'
+import { v4 as uuidv4 } from 'uuid'
 import ArticleApi from '@/api/travelArticle'
+import CustomCropper from '@/components/cropper/CustomCropper'
 export default {
-  data() {
+  components: {
+    CustomCropper,
+  },
+  asyncData({ $cookiz }) {
+    const guid = uuidv4()
     return {
+      uploader: null,
+      guid, // 写游记页面guid标识
       editable: false,
+      cropperVisible: false,
+      cropperImg: '',
       article: {
         title: '', // 文章标题
         content: '', // 文章内容
+        banner: null, // 文章banner
       },
+      options: {
+        target: ArticleApi.editorUpload,
+        chunkSize: 1024 * 1024,
+        testChunks: false,
+        headers: {
+          Authorization: `Bearer ${$cookiz.get('jwt_token')}`,
+        },
+        query: {
+          guid,
+        },
+      },
+      browseOpts: [false, false, { accept: 'image/*' }],
     }
   },
   computed: {
@@ -109,6 +158,54 @@ export default {
           })
         })
     },
+    cropperCancel() {
+      this.uploader.cancel()
+    },
+    uploadProfile(blob) {
+      const file = new File([blob], this.profile.name, {
+        type: this.profile.type,
+      })
+      file.cropper = true
+      this.uploader.cancel()
+      this.uploader.addFile(file)
+      this.uploader.upload()
+      // 触发upload接口请求
+      // this.$axios.$post(UserApi.upload, )
+      // this.uploader.add
+      // this.uploader.upload()
+    },
+    change(event, uploader) {
+      const file = event.target.files[0]
+      // 头像上传流程采用服务器qiniu直传
+      const reader = new FileReader()
+      this.profile = file
+      reader.readAsDataURL(file)
+      reader.onload = (e) => {
+        const base64 = e.target.result
+        this.cropperImg = base64
+        this.cropperVisible = true
+      }
+    },
+    getUploader(uploader) {
+      this.uploader = uploader
+    },
+    fileSuccess({ message }) {
+      const result = JSON.parse(message)
+      if (result.code === 200) {
+        try {
+          this.$message({
+            type: 'success',
+            message: 'Banner上传成功',
+          })
+          this.article.banner = result.data[0].url
+        } catch (message) {
+          this.$message({
+            type: 'error',
+            message,
+          })
+        }
+      }
+    },
   },
 }
 </script>
@@ -123,7 +220,7 @@ export default {
     left: 0;
     right: 0;
     height: 100%;
-    background-image: url('@/assets/pic/topicPic.jpg');
+    // background-image: url('@/assets/pic/topicPic.jpg');
     background-size: cover;
     background-position: center center;
   }

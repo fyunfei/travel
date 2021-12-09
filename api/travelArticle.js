@@ -3,4 +3,5 @@ export default {
   list: '/api/travel/list', // get 游记列表
   detail: '/api/travel/detail', // get 游记详情
   update: '/api/travel/update', // post 游记更新
+  editorUpload: '/api/upload/editor', // post 游记富文本图片上传
 }

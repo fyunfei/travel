@@ -9,6 +9,12 @@
 import UserApi from '@/api/user'
 import { v4 as uuidv4 } from 'uuid'
 export default {
+  props: {
+    guid: {
+      type: String,
+      default: uuidv4(),
+    },
+  },
   data() {
     return {
       editor: null,
@@ -16,8 +22,6 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      const guid = uuidv4()
-      this.$emit('guid', guid)
       const editor = this.$wangeditor('#toolbar', '#article')
       editor.config.onchange = (html) => {
         this.$emit('input', html)
@@ -31,7 +35,7 @@ export default {
         Authorization: `Bearer ${this.$cookiz.get('jwt_token')}`,
       }
       editor.config.uploadImgParams = {
-        guid,
+        guid: this.guid,
       }
       editor.config.uploadFileName = 'file'
       editor.config.uploadImgHooks = {

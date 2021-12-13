@@ -5,25 +5,7 @@
         <span class="text-h6">裁剪图片</span>
       </v-card-title>
       <v-card-text>
-        <div
-          ref="cropperContainer"
-          class="cropper-container"
-          style="width: 500px"
-        >
-          <client-only>
-            <VueCropper
-              ref="cropper"
-              :img="img"
-              :auto-crop="true"
-              :can-scale="false"
-              :original="false"
-              max-img-size="800"
-              :center-box="true"
-              :fixed="true"
-              :fixed-number="ratio"
-            />
-          </client-only>
-        </div>
+        <div ref="cropper" class="cropper"></div>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -52,8 +34,8 @@
 export default {
   props: {
     ratio: {
-      type: Array,
-      default: () => [1, 1],
+      type: Number,
+      default: 1 / 1,
     },
     value: {
       type: Boolean,
@@ -66,8 +48,9 @@ export default {
   },
   data() {
     return {
+      cropper: null,
       loading: false,
-      conWidth: 0, // 裁剪范围宽度，根据图片宽高动态计算
+      conWidth: 850, // 裁剪范围宽度，根据图片宽高动态计算
     }
   },
   watch: {
@@ -79,23 +62,38 @@ export default {
   },
   methods: {
     init(imgUrl) {
-      const target = new Image()
-      target.src = imgUrl
-      target.onload = () => {
-        const ele = this.$refs.cropperContainer
-        ele.style.width = target.width > 500 ? '500px' : `${target.width}px`
-        ele.style.height = target.height > 500 ? '500px' : `${target.height}px`
-        this.conWidth = target.width + 200
-      }
+      this.$nextTick(() => {
+        const cropperCon = this.$refs.cropper
+        const img = new Image()
+        img.style['max-width'] = '100%'
+        cropperCon.appendChild(img)
+        this.cropper = this.$cropper(img, {
+          aspectRatio: this.ratio,
+          viewMode: 1,
+          center: false,
+          scalable: false,
+          cropBoxResizable: false,
+          zoomable: false,
+          zoomOnTouch: false,
+          autoCropArea: 1,
+          toggleDragModeOnDblclick: false,
+          dragMode: 'move',
+        })
+        this.cropper.replace(this.img)
+      })
     },
     handleCancel() {
+      this.cropper.destroy()
+      this.cropper = null
       this.$emit('input', false)
       this.$emit('cancel')
     },
     handleConfirm() {
-      this.$refs.cropper.getCropBlob((data) => {
+      this.cropper.getCroppedCanvas().toBlob((blob) => {
         // do something
-        this.$emit('getBlob', data)
+        this.cropper.destroy()
+        this.cropper = null
+        this.$emit('getBlob', blob)
         this.$emit('input', false)
       })
     },
@@ -104,7 +102,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.cropper-container {
+.cropper {
+  width: 800px;
+  height: 450px;
   margin: 0 auto;
 }
 </style>

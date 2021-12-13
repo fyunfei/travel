@@ -10,17 +10,21 @@
         @uploader="getUploader"
       >
         <div
+          v-if="article.banner"
           class="topic-bg"
           :style="{
             'background-image': `url(${article.banner})`,
           }"
         ></div>
+        <div v-else class="topic-bg_null">
+          <div class="topic-bg_null_img"></div>
+        </div>
       </Uploader>
       <CustomCropper
         ref="cropper"
         v-model="cropperVisible"
         :img="cropperImg"
-        :ratio="[16, 9]"
+        :ratio="16 / 9"
         @cancel="cropperCancel"
         @getBlob="uploadProfile"
       />
@@ -215,14 +219,30 @@ export default {
   position: relative;
   height: 480px;
   overflow: hidden;
-  &-bg {
+  &-bg,
+  &-bg_null {
     position: absolute;
     left: 0;
     right: 0;
     height: 100%;
+  }
+  &-bg {
     // background-image: url('@/assets/pic/topicPic.jpg');
     background-size: cover;
     background-position: center center;
+  }
+  &-bg_null {
+    &_img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      height: 150px;
+      background-size: contain;
+      background-position: center center;
+      background-image: url('@/assets/pic/add-image.png');
+    }
   }
 }
 .content-header_con {

@@ -1,4 +1,7 @@
-import Vue from 'vue'
-import { VueCropper } from 'vue-cropper'
-
-Vue.component('VueCropper', VueCropper)
+import Cropperjs from 'cropperjs'
+import 'cropperjs/dist/cropper.min.css'
+export default function (ctx, inject) {
+  inject('cropper', (el, opts = {}) => {
+    return new Cropperjs(el, opts)
+  })
+}

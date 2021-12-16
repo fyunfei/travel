@@ -1,5 +1,3 @@
-// import Vue from 'vue'
-// import { VAlert } from 'vuetify/lib'
 import Message from './Message.vue'
 const init = (config) => {
   const MessagePlugin = {}
@@ -27,7 +25,6 @@ const init = (config) => {
       timeout = setTimeout(() => {
         instanceList.forEach((i) => {
           i.instance.hidden()
-          // document.querySelector('#app').removeChild(i.instanceEle)
         })
         instanceList.pop()
       }, opt.duration || 1500)

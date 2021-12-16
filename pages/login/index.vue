@@ -55,7 +55,6 @@ import { required } from 'vuelidate/lib/validators'
 const { userTip, passTip } = placeholder
 export default {
   mixins: [validationMixin],
-  layout: 'login',
   data() {
     return {
       loading: false,

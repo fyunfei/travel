@@ -79,7 +79,6 @@ import { required, sameAs } from 'vuelidate/lib/validators'
 const { userTip, phoneTip, passTip, repeatTip, nickTip } = placeholder
 export default {
   mixins: [validationMixin],
-  layout: 'login',
   data() {
     return {
       valid: true,

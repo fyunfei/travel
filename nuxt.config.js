@@ -92,7 +92,7 @@ export default {
   },
   proxy: {
     '/api/': {
-      target: 'http://192.168.0.103:3000',
+      target: 'http://192.168.0.102:3000',
     },
   },
 

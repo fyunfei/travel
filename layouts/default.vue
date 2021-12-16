@@ -1,6 +1,6 @@
 <template>
-  <v-app light>
-    <v-app-bar color="#6A76AB" dark max-height="64">
+  <v-app :class="{ 'login-container': isLogin }">
+    <v-app-bar v-if="!isLogin" color="#6A76AB" dark max-height="64">
       <v-app-bar-nav-icon v-if="!isHomePage" @click="backTo">
         <v-icon> mdi-arrow-left </v-icon>
       </v-app-bar-nav-icon>
@@ -22,6 +22,9 @@ export default {
     ...mapState({
       userInfo: (state) => state.user.userInfo,
     }),
+    isLogin() {
+      return this.$route.name === 'login'
+    },
     isHomePage() {
       return this.$route.name === 'index'
     },
@@ -33,7 +36,7 @@ export default {
   },
 }
 </script>
-<style>
+<style lang="scss">
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -84,5 +87,21 @@ html {
 }
 .custom.v-btn {
   overflow: hidden;
+}
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 1100px;
+  background-image: url('http://image.followmyheart.cn/%E7%99%BB%E5%BD%95%E8%83%8C%E6%99%AF.jpeg') !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  // background-position: center center !important;
+  background-attachment: fixed !important;
+  .v-application--wrap {
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>

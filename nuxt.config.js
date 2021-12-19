@@ -32,6 +32,9 @@ export default {
       ssr: false,
     }, */
     {
+      src: '@/plugins/axios',
+    },
+    {
       src: '@/plugins/wangeditor',
       ssr: false,
     },
@@ -43,11 +46,11 @@ export default {
       src: '@/plugins/vuetify',
     }, */
     {
-      src: '@/plugins/axios',
-    },
-    {
       src: '@/plugins/cropper',
       ssr: false,
+    },
+    {
+      src: '@/plugins/lazyload',
     },
   ],
   loading: false,

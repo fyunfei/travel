@@ -51,6 +51,11 @@ export default {
     this.editor.destroy()
     this.editor = null
   },
+  methods: {
+    getText() {
+      return this.editor.txt.text()
+    },
+  },
 }
 </script>
 

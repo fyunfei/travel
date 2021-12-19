@@ -65,6 +65,7 @@
     <!-- 标题end -->
     <!-- 文章start -->
     <Editor
+      ref="editor"
       v-model="article.content"
       :guid="guid"
       class="article-editor w-8/12 mx-auto"
@@ -110,11 +111,12 @@ export default {
       article: {
         title: '', // 文章标题
         content: '', // 文章内容
+        text: '', // 文章纯文本内容
         banner: null, // 文章banner
       },
       options: {
         target: ArticleApi.editorUpload,
-        chunkSize: 1024 * 1024,
+        chunkSize: 50 * 1024 * 1024,
         testChunks: false,
         headers: {
           Authorization: `Bearer ${$cookiz.get('jwt_token')}`,
@@ -144,6 +146,7 @@ export default {
   },
   methods: {
     publish(draft = 0) {
+      this.article.text = this.$refs.editor.getText()
       this.$axios
         .$post(ArticleApi.write, { draft, ...this.article })
         .then((res) => {
@@ -241,7 +244,7 @@ export default {
       height: 150px;
       background-size: contain;
       background-position: center center;
-      background-image: url('@/assets/pic/add-image.png');
+      background-image: url('//image.followmyheart.cn/upload.svg');
     }
   }
 }

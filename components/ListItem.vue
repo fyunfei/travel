@@ -1,15 +1,18 @@
 <template>
   <div class="w-full item-con clearfix" @click="routeTo">
-    <div class="item-left item-left_img float-left"></div>
+    <div
+      v-lazy:background-image="travelBanner"
+      class="item-left item-left_img float-left"
+    ></div>
     <div class="item-right float-left">
       <p class="item-right_title">
         <a href="javascript:void(0)">
-          做无用之事，遣有涯之生，藏在古诗词中的旅行种草攻略。
+          {{ travel.title }}
         </a>
       </p>
       <article class="item-right_content">
         <a href="javascript:void(0)">
-          就地过年，让我有了更多独处和沉淀下来的闲暇时光。做无用之事，遣有涯之生。这或许是疫情下，一个创业者最了一慰藉的话语，当然，这也是对于自己人生的一种答案。这一篇游记想了好久，也累...
+          {{ travel.text }}
         </a>
       </article>
       <div class="item-right_bottom clearfix">
@@ -18,8 +21,8 @@
           <span>100</span>
         </div>
         <div class="float-right item-right_bottom-user" data-user="Victoria">
-          <img src="@/assets/pic/profile.jpg" alt="Victoria" />
-          <span>Victoria</span>
+          <img :src="travel.user.profile" />
+          <span>{{ travel.user.author }}</span>
         </div>
       </div>
     </div>
@@ -28,6 +31,24 @@
 
 <script>
 export default {
+  props: {
+    travel: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  data() {
+    return {
+      travelBanner: {
+        src: this.travel.banner,
+        error: '//image.followmyheart.cn/upload.svg',
+        loading:
+          this.travel.draft === 1
+            ? '//image.followmyheart.cn/loading_.svg'
+            : `${this.travel.banner}/gauss`,
+      },
+    }
+  },
   methods: {
     routeTo() {
       this.$router.push('/list/detail')
@@ -56,13 +77,14 @@ a {
     border-radius: 5px;
   }
   .item-left_img {
-    background-image: url('@/assets/pic/clear.jpg');
-    background-size: cover;
+    // background-image: url('@/assets/pic/clear.jpg');
+    background-size: contain;
     background-position: center center;
     background-color: rgba($color: #fff, $alpha: 0.6);
   }
   .item-right {
     position: relative;
+    width: 100%;
     max-width: 1010px;
     height: 150px;
     &_title {

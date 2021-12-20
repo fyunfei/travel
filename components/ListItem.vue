@@ -42,10 +42,9 @@ export default {
       travelBanner: {
         src: this.travel.banner,
         error: '//image.followmyheart.cn/upload.svg',
-        loading:
-          this.travel.draft === 1
-            ? '//image.followmyheart.cn/loading_.svg'
-            : `${this.travel.banner}/gauss`,
+        loading: this.travel.banner
+          ? `${this.travel.banner}/gauss`
+          : '//image.followmyheart.cn/loading_.svg',
       },
     }
   },

@@ -22,7 +22,7 @@ export default {
         {
           text: '游记',
           img: 'travel',
-          path: '/list',
+          path: '/list/0',
         },
         {
           text: '我的计划',

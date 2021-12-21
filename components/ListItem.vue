@@ -6,14 +6,10 @@
     ></div>
     <div class="item-right float-left">
       <p class="item-right_title">
-        <a href="javascript:void(0)">
-          {{ travel.title }}
-        </a>
+        <a href="javascript:void(0)">{{ travel.title }}</a>
       </p>
       <article class="item-right_content">
-        <a href="javascript:void(0)">
-          {{ travel.text }}
-        </a>
+        <a href="javascript:void(0)">{{ travel.text }}</a>
       </article>
       <div class="item-right_bottom clearfix">
         <div class="float-left item-right_bottom-user">
@@ -50,7 +46,10 @@ export default {
   },
   methods: {
     routeTo() {
-      this.$router.push('/list/detail')
+      const { type } = this.$route.params
+      const url =
+        +type === 1 ? `/travels/${this.travel.id}` : `/detail/${this.travel.id}`
+      this.$router.push(url)
     },
   },
 }

@@ -14,6 +14,10 @@ export default {
       type: String,
       default: uuidv4(),
     },
+    value: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -44,6 +48,7 @@ export default {
         },
       }
       editor.create()
+      editor.txt.html(this.value)
       this.editor = editor
     })
   },

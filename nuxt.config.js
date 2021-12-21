@@ -40,7 +40,7 @@ export default {
     },
     {
       src: '@/plugins/message/index',
-      ssr: false,
+      ssr: true,
     },
     /*     {
       src: '@/plugins/vuetify',

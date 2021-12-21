@@ -94,13 +94,33 @@
 <script>
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid'
-import ArticleApi from '@/api/travelArticle'
+import travelApi from '@/api/travelArticle'
 import CustomCropper from '@/components/cropper/CustomCropper'
 export default {
   components: {
     CustomCropper,
   },
-  asyncData({ $cookiz }) {
+  async asyncData({ $cookiz, $axios, route, router }) {
+    const { id } = route.params
+    const article = {
+      title: '', // 文章标题
+      content: '', // 文章内容
+      text: '', // 文章纯文本内容
+      banner: null, // 文章banner
+    }
+    if (id) {
+      // 调用详情接口
+      const response = await $axios.$get(travelApi.detail, { params: { id } })
+      const { code, result } = response
+      if (code === 200 && result) {
+        const { content, title, banner } = result
+        article.content = content
+        article.title = title
+        article.banner = banner
+      } else {
+        console.log(result)
+      }
+    }
     const guid = uuidv4()
     return {
       uploader: null,
@@ -108,14 +128,9 @@ export default {
       editable: false,
       cropperVisible: false,
       cropperImg: '',
-      article: {
-        title: '', // 文章标题
-        content: '', // 文章内容
-        text: '', // 文章纯文本内容
-        banner: null, // 文章banner
-      },
+      article,
       options: {
-        target: ArticleApi.editorUpload,
+        target: travelApi.editorUpload,
         chunkSize: 50 * 1024 * 1024,
         testChunks: false,
         headers: {
@@ -148,7 +163,7 @@ export default {
     publish(draft = 0) {
       this.article.text = this.$refs.editor.getText()
       this.$axios
-        .$post(ArticleApi.write, { draft, ...this.article })
+        .$post(travelApi.write, { draft, ...this.article })
         .then((res) => {
           const { code, result, message } = res
           if (code === 200 && result) {

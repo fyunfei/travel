@@ -3,7 +3,6 @@ export default async function (ctx) {
   // redirect('/inspire')
   const { $cookiz } = app
   const isAuth = !!$cookiz.get('jwt_token')
-
   if (!isAuth) {
     redirect('/login')
   } else {

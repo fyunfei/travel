@@ -38,9 +38,9 @@
         <div class="article-info float-left">
           <h1 class="article-title">
             <p
-              v-if="!editable"
+              v-if="!titleEditable"
               class="article-title_info"
-              @click="editable = !editable"
+              @click="titleEditable = !titleEditable"
             >
               {{ article.title || '请输入游记标题' }}
             </p>
@@ -55,7 +55,7 @@
               counter
               clearable
               placeholder="请输入游记标题"
-              @blur="editable = !editable"
+              @blur="titleEditable = !titleEditable"
             />
             <!-- <TravelsTitleDialog /> -->
           </h1>
@@ -114,18 +114,20 @@ export default {
       const { code, result } = response
       if (code === 200 && result) {
         const { content, title, banner } = result
+        article.id = id
         article.content = content
         article.title = title
         article.banner = banner
       } else {
-        console.log(result)
+        // console.log(result)
       }
     }
     const guid = uuidv4()
     return {
       uploader: null,
       guid, // 写游记页面guid标识
-      editable: false,
+      editable: !!id,
+      titleEditable: false,
       cropperVisible: false,
       cropperImg: '',
       article,
@@ -162,13 +164,14 @@ export default {
   methods: {
     publish(draft = 0) {
       this.article.text = this.$refs.editor.getText()
+      const API = this.editable ? travelApi.update : travelApi.write
       this.$axios
-        .$post(travelApi.write, { draft, ...this.article })
+        .$post(API, { draft, ...this.article })
         .then((res) => {
           const { code, result, message } = res
           if (code === 200 && result) {
             this.$message({ type: 'success', message })
-            this.$router.push('/list')
+            this.$router.push(draft ? '/list/1' : '/list/2')
           } else {
             this.$message({ type: 'error', message })
           }

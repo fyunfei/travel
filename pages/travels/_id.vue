@@ -108,21 +108,23 @@ export default {
       text: '', // 文章纯文本内容
       banner: null, // 文章banner
     }
+    let guid = uuidv4()
     if (id) {
       // 调用详情接口
       const response = await $axios.$get(travelApi.detail, { params: { id } })
       const { code, result } = response
       if (code === 200 && result) {
-        const { content, title, banner } = result
+        const { content, title, banner, guid: RES_GUID } = result
         article.id = id
         article.content = content
         article.title = title
         article.banner = banner
+        if (RES_GUID) guid = RES_GUID
+        // 正则匹配banne路由guid字段
       } else {
         // console.log(result)
       }
     }
-    const guid = uuidv4()
     return {
       uploader: null,
       guid, // 写游记页面guid标识
@@ -166,7 +168,7 @@ export default {
       this.article.text = this.$refs.editor.getText()
       const API = this.editable ? travelApi.update : travelApi.write
       this.$axios
-        .$post(API, { draft, ...this.article })
+        .$post(API, { draft, guid: this.guid, ...this.article })
         .then((res) => {
           const { code, result, message } = res
           if (code === 200 && result) {
@@ -187,17 +189,17 @@ export default {
       this.uploader.cancel()
     },
     uploadProfile(blob) {
-      const file = new File([blob], this.profile.name, {
-        type: this.profile.type,
-      })
+      const file = new File(
+        [blob],
+        `${this.profile.size}-${this.profile.name}`,
+        {
+          type: this.profile.type,
+        }
+      )
       file.cropper = true
       this.uploader.cancel()
       this.uploader.addFile(file)
       this.uploader.upload()
-      // 触发upload接口请求
-      // this.$axios.$post(UserApi.upload, )
-      // this.uploader.add
-      // this.uploader.upload()
     },
     change(event, uploader) {
       const file = event.target.files[0]

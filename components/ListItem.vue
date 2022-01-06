@@ -38,9 +38,10 @@ export default {
       travelBanner: {
         src: this.travel.banner,
         error: '//image.followmyheart.cn/upload.svg',
-        loading: this.travel.banner
-          ? `${this.travel.banner}/gauss`
-          : '//image.followmyheart.cn/loading_.svg',
+        loading:
+          this.travel.draft !== 1
+            ? `${this.travel.banner}/gauss`
+            : '//image.followmyheart.cn/loading_.svg',
       },
     }
   },

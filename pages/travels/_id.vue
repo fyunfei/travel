@@ -24,7 +24,7 @@
         ref="cropper"
         v-model="cropperVisible"
         :img="cropperImg"
-        :ratio="16 / 9"
+        :ratio="NaN"
         @cancel="cropperCancel"
         @getBlob="uploadProfile"
       />
@@ -308,6 +308,7 @@ export default {
 .article-editor {
   position: relative;
   margin-top: 50px;
+  z-index: 0;
 }
 .publish {
   position: fixed;

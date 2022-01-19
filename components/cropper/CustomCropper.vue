@@ -1,5 +1,11 @@
 <template>
-  <v-dialog :width="conWidth" :value="value" hide-overlay persistent>
+  <v-dialog
+    :width="conWidth"
+    :value="value"
+    hide-overlay
+    persistent
+    class="z-50"
+  >
     <v-card>
       <v-card-title>
         <span class="text-h6">裁剪图片</span>
@@ -77,6 +83,9 @@ export default {
           zoomOnTouch: false,
           autoCropArea: 1,
           toggleDragModeOnDblclick: false,
+          minCropBoxWidth: 800,
+          minCanvasWidth: 800,
+          minContainerWidth: 800,
           dragMode: 'move',
         })
         this.cropper.replace(this.img)

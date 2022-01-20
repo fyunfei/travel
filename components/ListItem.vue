@@ -17,8 +17,13 @@
           <span>100</span>
         </div>
         <div class="float-right item-right_bottom-user" data-user="Victoria">
-          <img :src="travel.user.profile" />
-          <span>{{ travel.user.author }}</span>
+          <div>
+            <img :src="travel.user.profile" />
+            <span>{{ travel.user.author }}</span>
+          </div>
+          <div class="item-right_bottom-date">
+            {{ moment(travel.createTime).format('YYYY-MM-DD') }}
+          </div>
         </div>
       </div>
     </div>
@@ -26,6 +31,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   props: {
     travel: {
@@ -46,6 +52,7 @@ export default {
     }
   },
   methods: {
+    moment,
     routeTo() {
       const { type } = this.$route.params
       const url =
@@ -111,6 +118,10 @@ a {
           vertical-align: middle;
           font-size: 12px;
         }
+      }
+      &-date {
+        font-size: 12px;
+        vertical-align: middle;
       }
     }
   }

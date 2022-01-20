@@ -21,6 +21,11 @@
         :key="travel.id"
         :travel="travel"
       />
+      <v-pagination
+        v-if="total > pageSize"
+        v-model="page"
+        :length="pageTotal"
+      ></v-pagination>
     </div>
     <div v-else class="null-match">
       <div class="null-match_img"></div>
@@ -52,16 +57,20 @@ export default {
         params.draft = +type
       }
     }
-    let travelList
+    let travelList, pageTotal, total
     try {
       const { data } = await $axios.get(travelApi.list, { params })
-      const { result } = data
-      params.page = +result.page
-      params.pageSize = +result.pageSize
-      travelList = result.list
+      const { page, pageSize, pageTotal: pt, total: t, list } = data.result
+      params.page = +page
+      params.pageSize = +pageSize
+      pageTotal = +pt
+      total = +t
+      travelList = list
     } catch (err) {}
     return {
       ...params,
+      pageTotal,
+      total,
       type: +type,
       travelList,
       tabList: [
@@ -77,6 +86,22 @@ export default {
         },
       ],
     }
+  },
+  watch: {
+    async page(val) {
+      const { data } = await this.$axios.get(travelApi.list, {
+        params: {
+          page: val,
+          pageSize: this.pageSize,
+        },
+      })
+      const { page, pageSize, pageTotal, total, list } = data.result
+      this.page = +page
+      this.pageSize = +pageSize
+      this.pageTotal = +pageTotal
+      this.total = total
+      this.travelList = list
+    },
   },
 }
 </script>

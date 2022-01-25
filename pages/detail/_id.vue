@@ -20,6 +20,13 @@
             </p>
             <!-- <TravelsTitleDialog /> -->
           </h1>
+          <div class="user">
+            <span class="user__name">{{ userInfo.author }}</span>
+            <span class="user__level">lv.1</span>
+          </div>
+          <div class="user">
+            <p>文章发布于：{{ visibleDate }}</p>
+          </div>
         </div>
       </div>
     </header>
@@ -28,6 +35,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import travelApi from '@/api/travelArticle'
 export default {
   async asyncData({ $axios, route }) {
@@ -40,6 +48,14 @@ export default {
           article: result,
         }
     }
+  },
+  computed: {
+    userInfo() {
+      return this.article.user
+    },
+    visibleDate() {
+      return moment(this.article.createTime).format('YYYY-MM-DD')
+    },
   },
   mounted() {
     const topicEl = this.$refs.topic

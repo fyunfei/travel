@@ -59,7 +59,7 @@ export default {
     }
     let travelList, pageTotal, total
     try {
-      const { data } = await store.dispatch('travel/getTravelList', params)
+      const data = await store.dispatch('travel/getTravelList', params)
       const { page, pageSize, pageTotal: pt, total: t, list } = data.result
       params.page = +page
       params.pageSize = +pageSize
@@ -89,7 +89,7 @@ export default {
   },
   watch: {
     async page(val) {
-      const { data } = await this.getTravelList({
+      const data = await this.getTravelList({
         page: val,
         pageSize: this.pageSize,
       })

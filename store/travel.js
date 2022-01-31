@@ -25,7 +25,9 @@ export const actions = {
   getTravelList(store, params) {
     return this.$axios
       .$get(travelApi.list, { params })
-      .then((response) => Promise.resolve(response))
+      .then((response) => {
+        return Promise.resolve(response)
+      })
       .catch((err) => Promise.reject(err))
   },
 }

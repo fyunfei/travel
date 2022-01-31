@@ -2,9 +2,9 @@
   <div class="list-con w-8/12 mx-auto mt-0 bg-white bg-opacity-50 h-full">
     <div class="relative custom-tabs">
       <v-tabs v-model="type" class="travel-tabs relative" centered>
-        <v-tab v-for="tab in tabList" :key="tab.value" :to="tab.url">{{
-          tab.name
-        }}</v-tab>
+        <v-tab v-for="tab in tabList" :key="tab.value" :to="tab.url">
+          {{ tab.name }}
+        </v-tab>
       </v-tabs>
       <v-btn
         color="primary"
@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import travelApi from '@/api/travelArticle'
+import { mapActions } from 'vuex'
 export default {
-  async asyncData({ $axios, route }) {
+  async asyncData({ route, store }) {
     // route type 0 1 2
     /**
      * 0 表示全部已提交
@@ -59,7 +59,7 @@ export default {
     }
     let travelList, pageTotal, total
     try {
-      const { data } = await $axios.get(travelApi.list, { params })
+      const { data } = await store.dispatch('travel/getTravelList', params)
       const { page, pageSize, pageTotal: pt, total: t, list } = data.result
       params.page = +page
       params.pageSize = +pageSize
@@ -89,11 +89,9 @@ export default {
   },
   watch: {
     async page(val) {
-      const { data } = await this.$axios.get(travelApi.list, {
-        params: {
-          page: val,
-          pageSize: this.pageSize,
-        },
+      const { data } = await this.getTravelList({
+        page: val,
+        pageSize: this.pageSize,
       })
       const { page, pageSize, pageTotal, total, list } = data.result
       this.page = +page
@@ -102,6 +100,11 @@ export default {
       this.total = total
       this.travelList = list
     },
+  },
+  methods: {
+    ...mapActions({
+      getTravelList: 'travel/getTravelList',
+    }),
   },
 }
 </script>

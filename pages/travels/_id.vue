@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { v4 as uuidv4 } from 'uuid'
 import travelApi from '@/api/travelArticle'
 import CustomCropper from '@/components/cropper/CustomCropper'
@@ -100,7 +100,7 @@ export default {
   components: {
     CustomCropper,
   },
-  async asyncData({ $cookiz, $axios, route, router }) {
+  async asyncData({ $cookiz, $axios, route, store }) {
     const { id } = route.params
     const article = {
       title: '', // 文章标题
@@ -111,7 +111,7 @@ export default {
     let guid = uuidv4()
     if (id) {
       // 调用详情接口
-      const response = await $axios.$get(travelApi.detail, { params: { id } })
+      const response = await store.dispatch('travel/getTravelDetail')
       const { code, result } = response
       if (code === 200 && result) {
         const { content, title, banner, guid: RES_GUID } = result
@@ -164,11 +164,14 @@ export default {
     })
   },
   methods: {
+    ...mapActions({
+      updateDetail: 'travel/updateDetail',
+      addTravel: 'travel/addTravel',
+    }),
     publish(draft = 0) {
       this.article.text = this.$refs.editor.getText()
-      const API = this.editable ? travelApi.update : travelApi.write
-      this.$axios
-        .$post(API, { draft, guid: this.guid, ...this.article })
+      const API = this.editable ? this.updateDetail : this.addTravel
+      API({ draft, guid: this.guid, ...this.article })
         .then((res) => {
           const { code, result, message } = res
           if (code === 200 && result) {

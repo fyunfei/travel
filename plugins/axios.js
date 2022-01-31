@@ -1,6 +1,5 @@
 import qs from 'qs'
 export default function ({ $axios, $cookiz, redirect }) {
-  // const api = $axios.create()
   $axios.setHeader('Content-Type', 'application/x-www-form-urlencoded', [
     'post',
   ])

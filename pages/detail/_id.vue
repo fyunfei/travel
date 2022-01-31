@@ -36,12 +36,11 @@
 
 <script>
 import moment from 'moment'
-import travelApi from '@/api/travelArticle'
 export default {
-  async asyncData({ $axios, route }) {
+  async asyncData({ route, store }) {
     const { id } = route.params
     if (id) {
-      const response = await $axios.$get(travelApi.detail, { params: { id } })
+      const response = await store.dispatch('travel/getTravelDetail', { id })
       const { code, result } = response
       if (code === 200 && result)
         return {

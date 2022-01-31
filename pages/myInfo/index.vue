@@ -198,9 +198,6 @@ export default {
       this.uploader.addFile(file)
       this.uploader.upload()
       // 触发upload接口请求
-      // this.$axios.$post(UserApi.upload, )
-      // this.uploader.add
-      // this.uploader.upload()
     },
     async fileSuccess({ message }) {
       const result = JSON.parse(message)

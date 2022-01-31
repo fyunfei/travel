@@ -42,6 +42,10 @@ export default {
       src: '@/plugins/message/index',
       ssr: true,
     },
+    {
+      src: '@/plugins/draggable',
+      ssr: false,
+    },
     /*     {
       src: '@/plugins/vuetify',
     }, */
@@ -95,7 +99,7 @@ export default {
   },
   proxy: {
     '/api/': {
-      target: 'http://192.168.0.105:3000',
+      target: 'http://192.168.0.103:3000',
     },
   },
 

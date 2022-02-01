@@ -115,7 +115,7 @@ export default {
 }
 .travel-tabs-draft {
   position: absolute !important;
-  right: 0;
+  right: 10px;
   top: 50%;
   transform: translate(0, -50%);
 }

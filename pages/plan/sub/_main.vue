@@ -14,6 +14,7 @@
     <client-only>
       <v-row>
         <v-col :cols="4">
+          <p class="list-con_title">资源池</p>
           <div class="list-con_item">
             <draggable
               v-model="myArray"
@@ -28,8 +29,9 @@
                 class="list-con_item__slider"
               >
                 <v-row>
-                  <v-col :cols="8">
-                    <span>{{ element.name }}</span>
+                  <v-col :cols="8" class="flex items-center">
+                    <i class="list-con_item__dot"></i>
+                    <span class="pl-1">{{ element.name }}</span>
                   </v-col>
                   <v-col :cols="4">
                     <v-checkbox
@@ -45,6 +47,7 @@
           </div>
         </v-col>
         <v-col :cols="4">
+          <p class="list-con_title">待办区</p>
           <div class="list-con_item">
             <draggable
               v-model="myArray_1"
@@ -76,6 +79,7 @@
           </div>
         </v-col>
         <v-col :cols="4">
+          <p class="list-con_title">已完成</p>
           <div class="list-con_item">
             <draggable
               v-model="myArray_2"
@@ -152,17 +156,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.list-con_title {
+  width: 300px;
+  margin: 0 auto;
+  font-weight: bold;
+  padding: 10px 0;
+}
 .list-con_item {
   width: 300px;
   height: 500px;
   margin: 0 auto;
+  padding: 10px;
+  background-color: #f8f8f8;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba($color: #999, $alpha: 0.2);
   overflow: hidden;
+  &__dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: #f00;
+    border-radius: 50%;
+  }
   &__slider {
     cursor: pointer;
     padding: 10px;
-    box-shadow: 0;
+    background: #fff;
+    box-shadow: 0 0 10px rgba($color: #999, $alpha: 0.2);
+    border-radius: 5px;
+    margin-bottom: 10px;
     // transition: all 500ms ease;
     &:hover {
       box-shadow: 0 0 10px rgba($color: #999, $alpha: 0.2);

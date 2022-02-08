@@ -1,4 +1,5 @@
 <template>
+  <!-- 首页应用图标 -->
   <div
     :class="{ shake: shaked }"
     class="w-4/12 mb-10 float-left cursor-pointer select-none"

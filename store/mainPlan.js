@@ -8,7 +8,7 @@ export const actions = {
   },
   getMainDetail(store, params) {
     return this.$axios
-      .$post(mainPlan.detail, { params })
+      .$get(mainPlan.detail, { params })
       .then((response) => Promise.resolve(response))
       .catch((err) => Promise.reject(err))
   },
@@ -26,7 +26,7 @@ export const actions = {
   },
   getMainList(store, params) {
     this.$axios
-      .$post(mainPlan.insert, { params })
+      .$get(mainPlan.list, { params })
       .then((response) => Promise.resolve(response))
       .catch((err) => Promise.reject(err))
   },

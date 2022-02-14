@@ -17,7 +17,7 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  // middleware: ['auth'],
+  middleware: ['auth'],
   computed: {
     ...mapState({
       userInfo: (state) => state.user.userInfo,

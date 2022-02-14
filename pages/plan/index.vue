@@ -12,7 +12,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col :cols="4" v-for="i in 10" :key="i">
+      <v-col v-for="i in 10" :key="i" :cols="4">
         <div class="list-con_item relative">
           <v-btn small color="primary" fab class="list-con_item__arrow">
             <v-icon>mdi-arrow-right-bold</v-icon>
@@ -28,7 +28,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+  async asyncData({
+    isDev,
+    route,
+    store,
+    env,
+    params,
+    query,
+    req,
+    res,
+    redirect,
+    error,
+  }) {
+    const mainList = await store.dispatch('mainPlan/getMainList', {
+      page: 1,
+      pageSize: 10,
+    })
+    console.log(mainList)
+    return {}
+  },
+}
 </script>
 
 <style lang="scss" scoped>

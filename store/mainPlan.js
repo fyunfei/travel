@@ -25,7 +25,7 @@ export const actions = {
       .catch((err) => Promise.reject(err))
   },
   getMainList(store, params) {
-    this.$axios
+    return this.$axios
       .$get(mainPlan.list, { params })
       .then((response) => Promise.resolve(response))
       .catch((err) => Promise.reject(err))

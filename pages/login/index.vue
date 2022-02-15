@@ -6,24 +6,24 @@
       </div>
       <v-form
         ref="form"
-        v-model="param.valid"
+        v-model="params.valid"
         class="login-wrap_form"
         lazy-validation
       >
         <v-text-field
-          v-model="param.username"
+          v-model="params.username"
           label="用户名"
           :error-messages="userError"
-          @input="$v.param.username.$touch()"
-          @blur="$v.param.username.$touch()"
+          @input="$v.params.username.$touch()"
+          @blur="$v.params.username.$touch()"
         ></v-text-field>
         <v-text-field
-          v-model="param.password"
+          v-model="params.password"
           label="密码"
           type="password"
           :error-messages="passwordError"
-          @input="$v.param.password.$touch()"
-          @blur="$v.param.password.$touch()"
+          @input="$v.params.password.$touch()"
+          @blur="$v.params.password.$touch()"
         ></v-text-field>
         <div class="login-wrap_reg">
           <a
@@ -58,14 +58,14 @@ export default {
   data() {
     return {
       loading: false,
-      param: {
+      params: {
         username: '',
         password: '',
       },
     }
   },
   validations: {
-    param: {
+    params: {
       username: {
         required,
         checkUser: (value) => {
@@ -93,28 +93,28 @@ export default {
   computed: {
     userError() {
       const errors = []
-      if (!this.$v.param.username.$dirty) return errors
-      !this.$v.param.username.required && errors.push(userTip)
-      !this.$v.param.username.checkUser &&
+      if (!this.$v.params.username.$dirty) return errors
+      !this.$v.params.username.required && errors.push(userTip)
+      !this.$v.params.username.checkUser &&
         errors.push('用户名由6~12位字母和数字组成')
       return errors
     },
     passwordError() {
       const errors = []
-      if (!this.$v.param.password.$dirty) return errors
-      !this.$v.param.password.required && errors.push(passTip)
-      !this.$v.param.password.checkPass &&
+      if (!this.$v.params.password.$dirty) return errors
+      !this.$v.params.password.required && errors.push(passTip)
+      !this.$v.params.password.checkPass &&
         errors.push('密码必须包括大小写字母和数字，可以使用特殊字符长度8~16位')
       return errors
     },
   },
   methods: {
     login() {
-      const validate = this.$v.param
+      const validate = this.$v.params
       validate.$touch()
       if (!validate.$invalid) {
         this.loading = true
-        const { username, password } = this.param
+        const { username, password } = this.params
         this.$axios
           .$post(UserApi.login, {
             username,

@@ -24,11 +24,16 @@
         </div>
       </v-col>
     </v-row>
+    <MainPlanDialog />
   </div>
 </template>
 
 <script>
+import MainPlanDialog from '@/components/plan/MainPlanDialog'
 export default {
+  components: {
+    MainPlanDialog,
+  },
   async asyncData({
     isDev,
     route,
@@ -41,11 +46,11 @@ export default {
     redirect,
     error,
   }) {
-    const mainList = await store.dispatch('mainPlan/getMainList', {
+    const response = await store.dispatch('mainPlan/getMainList', {
       page: 1,
       pageSize: 10,
     })
-    console.log(mainList)
+    console.log(response)
     return {}
   },
 }

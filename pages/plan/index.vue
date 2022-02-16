@@ -24,7 +24,7 @@
         </div>
       </v-col>
     </v-row>
-    <MainPlanDialog />
+    <MainPlanDialog v-model="visible" @success="handleSuccess"/>
   </div>
 </template>
 
@@ -51,8 +51,15 @@ export default {
       pageSize: 10,
     })
     console.log(response)
-    return {}
+    return {
+      visible: false
+    }
   },
+  methods:{
+    handleSuccess(){
+      // 列表刷新
+    }
+  }
 }
 </script>
 

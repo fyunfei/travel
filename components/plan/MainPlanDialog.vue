@@ -31,6 +31,7 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
+import { mapActions } from 'vuex'
 export default {
   mixins: [validationMixin],
   props: {
@@ -51,11 +52,32 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      insertMainPlan: 'mainPlan/insertMainPlan'
+    }),
     handleCancel() {
       this.$refs.form.reset()
     },
-    handleConfirm() {
+    async handleConfirm() {
       this.$refs.form.validate()
+      if(this.params.valid){
+        try{
+          const { title, address } = this.params
+          await this.insertMainPlan({title, address})
+          this.$message({
+            type: 'success',
+            message: '主计划创建成功',
+          })
+          this.$emit('input', false)
+          this.$emit('success')
+        }catch(message){
+          this.$message({
+            type: 'error',
+            message,
+          })
+        }
+      }
+
     },
   },
 }

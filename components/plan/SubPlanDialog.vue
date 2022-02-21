@@ -1,7 +1,7 @@
 <template>
   <v-dialog :width="500" :value="value" hide-overlay persistent class="z-50">
     <v-card>
-      <v-card-title>创建主计划</v-card-title>
+      <v-card-title>创建子计划</v-card-title>
       <v-card-text>
         <v-form ref="form" v-model="params.valid">
           <v-text-field
@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      insertMainPlan: 'mainPlan/insertMainPlan',
+      insertSubPlan: 'subPlan/insertSubPlan',
     }),
     handleCancel() {
       this.$refs.form.reset()
@@ -63,10 +63,10 @@ export default {
       if (this.params.valid) {
         try {
           const { title, address } = this.params
-          await this.insertMainPlan({ title, address })
+          await this.insertSubPlan({ title, address })
           this.$message({
             type: 'success',
-            message: '主计划创建成功',
+            message: '子计划创建成功',
           })
           this.$emit('input', false)
           this.$emit('success')

@@ -8,7 +8,7 @@ export const actions = {
   },
   getSubDetail(store, params) {
     return this.$axios
-      .$post(subPlan.detail, { params })
+      .$get(subPlan.detail, { params })
       .then((response) => Promise.resolve(response))
       .catch((err) => Promise.reject(err))
   },
@@ -25,8 +25,8 @@ export const actions = {
       .catch((err) => Promise.reject(err))
   },
   getSubList(store, params) {
-    this.$axios
-      .$post(subPlan.insert, { params })
+    return this.$axios
+      .$get(subPlan.list, { params })
       .then((response) => Promise.resolve(response))
       .catch((err) => Promise.reject(err))
   },

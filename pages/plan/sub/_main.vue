@@ -112,12 +112,23 @@
         </v-col>
       </v-row>
     </client-only>
+    <SubPlanDialog />
   </div>
 </template>
 
 <script>
+import SubPlanDialog from '@/components/plan/SubPlanDialog'
+import { mapActions } from 'vuex'
 export default {
-  asyncData() {
+  components: {
+    SubPlanDialog,
+  },
+  async asyncData({ store, params }) {
+    const { main: pid } = params
+    const response = await store.dispatch('subPlan/getSubList', {
+      pid,
+    })
+    console.log(response)
     return {
       t: '',
       myArray: [
@@ -152,6 +163,9 @@ export default {
       ],
     }
   },
+  ...mapActions({
+    getSubList: 'subPlan/getSubList',
+  }),
 }
 </script>
 

@@ -5,15 +5,9 @@
       <v-card-text>
         <v-form ref="form" v-model="params.valid">
           <v-text-field
-            v-model="params.title"
-            label="给这次旅行命个名吧"
-            :rules="titleRules"
-            required
-          ></v-text-field>
-          <v-text-field
-            v-model="params.address"
-            label="这次我们要去的地方"
-            :rules="addressRules"
+            v-model="params.task"
+            label="子计划主题"
+            :rules="taskRules"
             required
           ></v-text-field>
         </v-form>
@@ -44,11 +38,9 @@ export default {
     return {
       params: {
         valid: true,
-        title: '',
-        address: '',
+        task: '',
       },
-      titleRules: [(v) => !!v || '您还没有写这次计划的主题呢'],
-      addressRules: [(v) => !!v || '您还没有选择目的地呢'],
+      taskRules: [(v) => !!v || '您还没有写这次计划的主题呢'],
     }
   },
   methods: {
@@ -62,8 +54,9 @@ export default {
       this.$refs.form.validate()
       if (this.params.valid) {
         try {
-          const { title, address } = this.params
-          await this.insertSubPlan({ title, address })
+          const { task } = this.params
+          const { main: pid } = this.$route.params
+          await this.insertSubPlan({ task, pid })
           this.$message({
             type: 'success',
             message: '子计划创建成功',

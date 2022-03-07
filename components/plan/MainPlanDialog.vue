@@ -57,6 +57,7 @@ export default {
     }),
     handleCancel() {
       this.$refs.form.reset()
+      this.$emit('input', false)
     },
     async handleConfirm() {
       this.$refs.form.validate()

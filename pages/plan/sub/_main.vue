@@ -5,7 +5,7 @@
         <span class="text-4xl">ToDo List</span>
       </v-col>
       <v-col :cols="6" class="text-right">
-        <v-btn color="primary">
+        <v-btn color="primary" @click="visible = true">
           <span class="px-3">Make sub plan</span>
           <v-icon>mdi-arrow-right-thin-circle-outline</v-icon>
         </v-btn>
@@ -112,7 +112,7 @@
         </v-col>
       </v-row>
     </client-only>
-    <SubPlanDialog />
+    <SubPlanDialog v-model="visible" @success="handleSuccess" />
   </div>
 </template>
 
@@ -130,6 +130,7 @@ export default {
     })
     console.log(response)
     return {
+      visible: false,
       t: '',
       myArray: [
         {
@@ -163,9 +164,24 @@ export default {
       ],
     }
   },
-  ...mapActions({
-    getSubList: 'subPlan/getSubList',
-  }),
+  methods: {
+    ...mapActions({
+      getSubList: 'subPlan/getSubList',
+    }),
+    async init() {
+      const { main: pid } = this.$route.params
+      const response = await this.getSubList({
+        pid,
+      })
+      const { list } = response.result
+      this.mainList = list
+    },
+    handleSuccess() {
+      console.log(this.getSubList)
+      // this.init()
+      // 列表刷新
+    },
+  },
 }
 </script>
 

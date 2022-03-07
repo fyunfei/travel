@@ -5,20 +5,26 @@
         <span class="text-4xl">Let's Travel!!!</span>
       </v-col>
       <v-col :cols="6" class="text-right">
-        <v-btn color="primary">
+        <v-btn color="primary" @click="visible = true">
           <span class="px-3">Get Started</span>
           <v-icon>mdi-arrow-right-thin-circle-outline</v-icon>
         </v-btn>
       </v-col>
     </v-row>
     <v-row>
-      <v-col v-for="i in 10" :key="i" :cols="4">
+      <v-col v-for="item in mainList" :key="item.id" :cols="4">
         <div class="list-con_item relative">
-          <v-btn small color="primary" fab class="list-con_item__arrow">
+          <v-btn
+            small
+            color="primary"
+            fab
+            class="list-con_item__arrow"
+            @click="routeTo(item)"
+          >
             <v-icon>mdi-arrow-right-bold</v-icon>
           </v-btn>
           <p class="list-con_item__target">
-            <span>测试152</span>
+            <span>{{ item.title }}</span>
             <v-icon color="#fff">mdi-arrow-right-bold</v-icon>
           </p>
         </div>
@@ -29,6 +35,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import MainPlanDialog from '@/components/plan/MainPlanDialog'
 export default {
   components: {
@@ -50,14 +57,36 @@ export default {
       page: 1,
       pageSize: 10,
     })
-    console.log(response)
+    const { list } = response.result
+
     return {
       visible: false,
+      mainList: list,
     }
   },
   methods: {
+    ...mapActions({
+      getMainList: 'mainPlan/getMainList',
+    }),
+    async init() {
+      const response = await this.getMainList({
+        page: 1,
+        pageSize: 10,
+      })
+      const { list } = response.result
+      this.mainList = list
+    },
     handleSuccess() {
+      this.init()
       // 列表刷新
+    },
+    routeTo(item) {
+      this.$router.push({
+        name: 'plan-sub-main',
+        params: {
+          main: item.id,
+        },
+      })
     },
   },
 }

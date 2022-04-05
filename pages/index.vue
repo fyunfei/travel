@@ -24,11 +24,11 @@ export default {
           img: 'travel',
           path: '/list/0',
         },
-        {
+        /* {
           text: '我的计划',
           img: 'list',
           path: '/planList',
-        },
+        }, */
         {
           text: '制定计划',
           img: 'plan',

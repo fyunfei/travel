@@ -17,28 +17,30 @@
           <p class="list-con_title">资源池</p>
           <div class="list-con_item">
             <draggable
-              v-model="myArray"
+              v-model="taskList[0]"
               group="plan"
               :animation="150"
               class="h-full"
               :scroll="true"
+              @change="(events) => handleChange(0, events)"
             >
               <div
-                v-for="element in myArray"
+                v-for="element in taskList[0]"
                 :key="element.id"
                 class="list-con_item__slider"
               >
                 <v-row>
                   <v-col :cols="8" class="flex items-center">
                     <i class="list-con_item__dot"></i>
-                    <span class="pl-1">{{ element.name }}</span>
+                    <span class="pl-1">{{ element.task }}</span>
                   </v-col>
                   <v-col :cols="4">
                     <v-checkbox
-                      v-model="t"
+                      v-model="element.checked"
                       value="red"
                       hide-details
                       style="margin: 0"
+                      @click="handleChange(1, { added: { element } }, true)"
                     ></v-checkbox>
                   </v-col>
                 </v-row>
@@ -50,27 +52,29 @@
           <p class="list-con_title">待办区</p>
           <div class="list-con_item">
             <draggable
-              v-model="myArray_1"
+              v-model="taskList[1]"
               group="plan"
               :animation="150"
               class="h-full"
               :scroll="true"
+              @change="(events) => handleChange(1, events)"
             >
               <div
-                v-for="element in myArray_1"
+                v-for="element in taskList[1]"
                 :key="element.id"
                 class="list-con_item__slider"
               >
                 <v-row>
                   <v-col :cols="8">
-                    <span>{{ element.name }}</span>
+                    <span>{{ element.task }}</span>
                   </v-col>
                   <v-col :cols="4">
                     <v-checkbox
-                      v-model="t"
+                      v-model="element.checked"
                       value="red"
                       hide-details
                       style="margin: 0"
+                      @click="handleChange(2, { added: { element } }, true)"
                     ></v-checkbox>
                   </v-col>
                 </v-row>
@@ -82,28 +86,21 @@
           <p class="list-con_title">已完成</p>
           <div class="list-con_item">
             <draggable
-              v-model="myArray_2"
+              v-model="taskList[2]"
               group="plan"
               :animation="150"
               class="h-full"
               :scroll="true"
+              @change="(events) => handleChange(2, events)"
             >
               <div
-                v-for="element in myArray_2"
+                v-for="element in taskList[2]"
                 :key="element.id"
                 class="list-con_item__slider"
               >
                 <v-row>
                   <v-col :cols="8">
-                    <span>{{ element.name }}</span>
-                  </v-col>
-                  <v-col :cols="4">
-                    <v-checkbox
-                      v-model="t"
-                      value="red"
-                      hide-details
-                      style="margin: 0"
-                    ></v-checkbox>
+                    <span>{{ element.task }}</span>
                   </v-col>
                 </v-row>
               </div>
@@ -128,58 +125,67 @@ export default {
     const response = await store.dispatch('subPlan/getSubList', {
       pid,
     })
-    console.log(response)
+    const { code, result } = response
+    const taskList = [[], [], []]
+    if (code === 200) {
+      result.forEach((item) => {
+        item.checked = false
+        taskList[item.status].push(item)
+      })
+    }
     return {
       visible: false,
       t: '',
-      myArray: [
-        {
-          id: 1,
-          name: 'zs',
-        },
-        {
-          id: 2,
-          name: 'Ws',
-        },
-      ],
-      myArray_1: [
-        {
-          id: 3,
-          name: 'zs',
-        },
-        {
-          id: 4,
-          name: 'Ws',
-        },
-      ],
-      myArray_2: [
-        {
-          id: 5,
-          name: 'zs',
-        },
-        {
-          id: 6,
-          name: 'Ws',
-        },
-      ],
+      taskList,
     }
   },
   methods: {
     ...mapActions({
       getSubList: 'subPlan/getSubList',
+      updateSubPlan: 'subPlan/updateSubPlan',
     }),
     async init() {
       const { main: pid } = this.$route.params
       const response = await this.getSubList({
         pid,
       })
-      const { list } = response.result
-      this.mainList = list
+      const { result } = response
+      this.taskList = [[], [], []]
+      result.forEach((item) => {
+        item.checked = false
+        this.taskList[item.status].push(item)
+      })
     },
     handleSuccess() {
-      console.log(this.getSubList)
-      // this.init()
+      this.init()
       // 列表刷新
+    },
+    /**
+     * @param {boolean} byClick 表示通过点击事件触发，需要手动刷新列表
+     * @param {number} type 表示当前对应容器编号，byClick为true时表示他的下一个目标容器编号
+     * eg: 资源池(编号0)click -> handleChange(1,{added:{element}})
+     * 相当于将资源池内的任务拖拽到待办区触发待办区added更新事件
+     */
+    async handleChange(type, events, byClick) {
+      // 通过Draggable触发的都是更新状态操作
+      if (events.added) {
+        const { id, task } = events.added.element
+        const response = await this.updateSubPlan({ id, task, status: type })
+        const { result, code } = response
+        if (code === 200 && result) {
+          this.$message({
+            type: 'success',
+            message: '修改成功',
+          })
+          if (byClick) this.init()
+        } else {
+          this.$message({
+            type: 'error',
+            message: '修改失败',
+          })
+          this.init()
+        }
+      }
     },
   },
 }
